@@ -4,7 +4,7 @@
 	// #ifdef H5
 		openApp() //创建在h5端全局悬浮引导用户下载app的功能
 	// #endif
-	import checkIsAgree from '@/pages/uni-agree/utils/uni-agree.js';
+	// import checkIsAgree from '@/pages/uni-agree/utils/uni-agree.js';
 	import uniIdPageInit from '@/uni_modules/uni-id-pages/init.js';
 	export default {
 		globalData: {
@@ -42,6 +42,17 @@
 			plus.ios.deleteObject(manager);
 			console.log('idfa = '+idfa);*/
 			// #endif
+			
+			
+			// 隐藏 tabbar
+			uni.hideTabBar({
+				success() {
+					console.log('hide tabbar succ');
+				},
+				fail() {
+					console.log('hide tabbar fail');
+				}
+			})
 		},
 		onShow: function() {
 			console.log('App Show')
