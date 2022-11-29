@@ -2,6 +2,6 @@
   "enablePullDownRefresh": false,
   "usingComponents": {
     "v-tabs": "/uni_modules/v-tabs/components/v-tabs/v-tabs",
-    "uni-notice-bar": "/uni_modules/uni-notice-bar/components/uni-notice-bar/uni-notice-bar"
+    "yj-notice-bar": "/components/yj-notice-bar/yj-notice-bar"
   }
 }
