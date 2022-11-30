@@ -1,13 +1,13 @@
 <template>
 	<view class="page">
 		<!-- 上方的 tab：AI配方/实验室 -->
-		<v-tabs v-model="current" :tabs="tabs" @change="changeTab" fontSize="35rpx" color="#585657"
-			activeColor="#000000" lineColor="#000000"></v-tabs>
+		<yj-main-tabs v-model="current" :tabs="tabs" @change="changeTab" fontSize="35rpx" color="#585657"
+			activeColor="#000000" lineColor="#000000" field="name" @clickDisabled="clickDisabled"></yj-main-tabs>
 
 		<!-- 中间的模板列表 -->
 		<scroll-view class="scrollable_view" scroll-y="true" scroll-x="false">
 			<view :class="noticebar_classlist">
-				<image class="noticebar_img" src="@/static/templates/noticebar.png" mode="aspectFit"></image>
+				<image class="noticebar_img" src="@/static/main/noticebar.png" mode="aspectFit"></image>
 				<yj-notice-bar class="noticebar_text" scrollable single backgroundColor="rgb(0,0,0,0)"
 					text="公告:上了新模板，给大家送100瓶魔法药水" ref="noticebar">
 				</yj-notice-bar>
@@ -16,45 +16,40 @@
 			<!-- <button @click="clickClose">close</button> -->
 			<view class="template_grid">
 				<view class="template_item">
-					<image class="template_thumbnail" src="@/static/templates/template.png" mode="aspectFit"></image>
+					<image class="template_thumbnail" src="@/static/main/template.png" mode="aspectFit"></image>
 					<view class="template_desc">
 						<text>萌宠大变身</text>
-						<!-- <image class="palm" src="@/static/templates/palm.png" mode="aspectFit"></image> -->
 					</view>
 
 				</view>
 
 				<view class="template_item">
-					<image class="template_thumbnail" src="@/static/templates/template.png" mode="aspectFit"></image>
+					<image class="template_thumbnail" src="@/static/main/template.png" mode="aspectFit"></image>
 					<view class="template_desc">
 						<text>迪士尼公主</text>
-						<!-- <image class="palm" src="@/static/templates/palm.png" mode="aspectFit"></image> -->
 					</view>
 				</view>
 
 				<view class="template_item">
-					<image class="template_thumbnail" src="@/static/templates/template.png" mode="aspectFit"></image>
+					<image class="template_thumbnail" src="@/static/main/template.png" mode="aspectFit"></image>
 					<view class="template_desc">
 						<text>萌宠大变身</text>
-						<!-- <image class="palm" src="@/static/templates/palm.png" mode="aspectFit"></image> -->
 					</view>
 
 				</view>
 
 				<view class="template_item">
-					<image class="template_thumbnail" src="@/static/templates/template.png" mode="aspectFit"></image>
+					<image class="template_thumbnail" src="@/static/main/template.png" mode="aspectFit"></image>
 					<view class="template_desc">
 						<text>迪士尼公主</text>
-						<!-- <image class="palm" src="@/static/templates/palm.png" mode="aspectFit"></image> -->
 					</view>
 
 				</view>
 
 				<view class="template_item">
-					<image class="template_thumbnail" src="@/static/templates/template.png" mode="aspectFit"></image>
+					<image class="template_thumbnail" src="@/static/main/template.png" mode="aspectFit"></image>
 					<view class="template_desc">
 						<text>迪士尼公主</text>
-						<!-- <image class="palm" src="@/static/templates/palm.png" mode="aspectFit"></image> -->
 					</view>
 
 				</view>
@@ -79,7 +74,10 @@
 		data() {
 			return {
 				current: 0,
-				tabs: ['AI配方', '实验室'],
+				tabs: [
+					{id:1, name: 'AI配方', disabled: false},
+					{id:2, name: '实验室', disabled: true},
+				],
 				noticebar_classlist: ['noticebar'],
 			};
 		},
@@ -88,12 +86,21 @@
 				console.log('当前选中的项：' + index)
 			},
 
+			clickDisabled(index){
+				uni.showToast({
+					title:'实验室正在施工中~',
+					icon:'none'
+				})
+			},
+
 			clickClose() {
 				console.log('clickClose');
 				this.noticebar_classlist.push('transition');
 				setTimeout(this.$refs.noticebar.close, 1000)
 
-			}
+			},
+			
+			
 		}
 	}
 </script>
@@ -180,7 +187,7 @@
 					position: relative;
 
 					// 猫爪子按钮
-					background-image: url("@/static/templates/paw-btn.png");
+					background-image: url("@/static/main/paw-btn.png");
 					background-repeat: no-repeat;
 					background-size: contain;
 					padding: 16rpx 0 16rpx;
@@ -217,12 +224,13 @@
 			background-repeat: no-repeat;
 			background-size: contain;
 			background-position: center;
-			
+
 			// 未选中态按钮图片
-			background-image: url("@/static/templates/tabbar-unselected.png");
+			background-image: url("@/static/main/tabbar-unselected.png");
+
 			&.tabbar_elem_selected {
 				//选中态按钮图片	
-				background-image: url("@/static/templates/tabbar-selected.png");
+				background-image: url("@/static/main/tabbar-selected.png");
 			}
 		}
 	}

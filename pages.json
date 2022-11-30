@@ -1,5 +1,15 @@
 {
-	"pages": [{
+	"pages": [
+		{
+		    "path" : "pages/templates/pet_humanoid",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "萌宠大变身",
+		        "enablePullDownRefresh": false
+		    }
+		    
+		},
+		{
 			"path": "pages/main/main",
 			"style": {
 				"enablePullDownRefresh": false
@@ -13,7 +23,8 @@
 			}
 
 		}
-	],
+	    
+    ],
 	"globalStyle": {
 		// #ifdef H5
 		"h5": {
