@@ -1,7 +1,7 @@
 <template>
 	<view class="page">
 		<!-- 上方的 tab：AI配方/实验室 -->
-		<yj-main-tabs v-model="current" :tabs="tabs" @change="changeTab" fontSize="35rpx" color="#585657"
+		<yj-main-tabs v-model="current_tab" :tabs="tabs" @change="changeTab" fontSize="35rpx" color="#585657"
 			activeColor="#000000" lineColor="#000000" field="name" @clickDisabled="clickDisabled"></yj-main-tabs>
 
 		<!-- 中间的模板列表 -->
@@ -15,44 +15,15 @@
 
 			<!-- <button @click="clickClose">close</button> -->
 			<view class="template_grid">
-				<view class="template_item">
-					<image class="template_thumbnail" src="@/static/main/template.png" mode="aspectFit"></image>
+				<view class="template_item" v-for="(item,index) in templates" :key="title">
+					<image class="template_thumbnail" :src="item.image_url" mode="aspectFit"></image>
 					<view class="template_desc">
-						<text>萌宠大变身</text>
+						<text>{{item.title}}</text>
 					</view>
 
 				</view>
 
-				<view class="template_item">
-					<image class="template_thumbnail" src="@/static/main/template.png" mode="aspectFit"></image>
-					<view class="template_desc">
-						<text>迪士尼公主</text>
-					</view>
-				</view>
-
-				<view class="template_item">
-					<image class="template_thumbnail" src="@/static/main/template.png" mode="aspectFit"></image>
-					<view class="template_desc">
-						<text>萌宠大变身</text>
-					</view>
-
-				</view>
-
-				<view class="template_item">
-					<image class="template_thumbnail" src="@/static/main/template.png" mode="aspectFit"></image>
-					<view class="template_desc">
-						<text>迪士尼公主</text>
-					</view>
-
-				</view>
-
-				<view class="template_item">
-					<image class="template_thumbnail" src="@/static/main/template.png" mode="aspectFit"></image>
-					<view class="template_desc">
-						<text>迪士尼公主</text>
-					</view>
-
-				</view>
+				
 			</view>
 
 			<view class="scrollable_bottom"><text>··· 更多配方敬请期待 ···</text></view>
@@ -73,12 +44,23 @@
 	export default {
 		data() {
 			return {
-				current: 0,
+				current_tab: 0,
 				tabs: [
 					{id:1, name: 'AI配方', disabled: false},
 					{id:2, name: '实验室', disabled: true},
 				],
 				noticebar_classlist: ['noticebar'],
+				
+				templates: [
+					{
+						image_url: "../../static/main/template.png",
+						title: '萌宠大变身'
+					},
+					{
+						image_url: "../../static/main/template.png",
+						title: '迪士尼公主'
+					},
+				]
 			};
 		},
 		methods: {
