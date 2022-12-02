@@ -20,10 +20,7 @@
 					<view class="template_desc">
 						<text>{{item.title}}</text>
 					</view>
-
 				</view>
-
-				
 			</view>
 
 			<view class="scrollable_bottom"><text>··· 更多配方敬请期待 ···</text></view>
@@ -125,13 +122,7 @@
 
 			}
 
-			.noticebar_text {
-				// position: absolute;
-				// width: 50%; // TODO 不显式设置宽度的话，absolute 下会看不到
 
-				// bottom: 0;
-				// left: 120rpx;
-			}
 
 
 		}

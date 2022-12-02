@@ -352,7 +352,7 @@
 		&.transition {
 			// 关闭公告栏的动画结束状态
 			opacity: 0;
-			transform: translateX(-100px);
+			// transform: translateX(-100px);
 			margin: 0;
 			max-height: 0;
 		}
