@@ -107,7 +107,8 @@
 					if (height !== 'auto') {
 						obj.width = this.value2px(height)
 					} else {
-						obj.width = '33.3%'
+						obj.width = '50%'
+						// TODO：看不懂，33.3% 改成50%了
 					}
 				} else {
 					obj.width = this.value2px(width)
@@ -197,19 +198,20 @@
 		
 		// 居中
 		justify-content: center;
-		
-		// 将高度降低，这样上传图片后边框就不会剧烈收缩
-		// height: 300rpx;
-		
-		
+
 	}
 
 	.file-picker__box {
 		position: relative;
 		// flex: 0 0 33.3%;
-		width: 33.3%;
+		
+		// 通过 width 和 padding-top 来控制尺寸，但不清楚为什么要这么做（可能是因为 padding 的百分数是依赖于 parent 的 width）
+		// https://css-tricks.com/oh-hey-padding-percentage-is-based-on-the-parent-elements-width/
+		// TODO： 从 33.3 改成 50 了，如果后续有多图片场景，需要重新优化
+		width: 50%;
 		height: 0;
-		padding-top: 33.33%;
+		padding-top: 50%;
+		
 		/* #ifndef APP-NVUE */
 		box-sizing: border-box;
 		/* #endif */

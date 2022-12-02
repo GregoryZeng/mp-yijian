@@ -99,6 +99,10 @@
 			
 			position: relative;
 			
+			// 让上传的图片竖直方向居中
+			display: flex;
+			align-items: center;
+			
 			.deco-paw{
 				// 将猫爪挂在边框上
 				position: absolute;
