@@ -1,0 +1,7 @@
+{
+  "name": "recv-task-result",
+  "dependencies": {},
+  "extensions": {
+    "uni-cloud-jql": {}
+  }
+}
