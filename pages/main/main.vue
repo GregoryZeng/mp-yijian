@@ -7,9 +7,9 @@
 		<!-- 中间的模板列表 -->
 		<scroll-view class="scrollable_view" scroll-y="true" scroll-x="false">
 			<view :class="noticebar_classlist">
-				<image class="noticebar_img" src="@/static/main/noticebar.png" mode="aspectFit"></image>
+				<!-- <image class="noticebar_img" src="@/static/main/noticebar.png" mode="aspectFit"></image> -->
 				<yj-notice-bar class="noticebar_text" scrollable single backgroundColor="rgb(0,0,0,0)"
-					text="公告:上了新模板，给大家送100瓶魔法药水" ref="noticebar">
+					text="公告:上了新模板，给大家送100瓶魔法药水" ref="noticebar" :showIcon="true" color="#000000" showClose="true">
 				</yj-notice-bar>
 			</view>
 
@@ -112,6 +112,8 @@
 	}
 
 	.scrollable_view {
+		
+		
 		// 可滑动页高度
 		// TODO: 应该根据实际机型动态计算
 		width: auto;
@@ -131,18 +133,7 @@
 
 		.noticebar {
 			// 公告栏（包括图片、滚动文字、关闭按钮）
-			transition: all 1s;
-			max-height: 100rpx;
-			position: relative;
-
-			&.transition {
-				// 关闭公告栏的动画结束状态
-				opacity: 0;
-				transform: translateX(-100px);
-				margin: 0;
-				max-height: 0;
-			}
-
+			
 			.noticebar_img {
 				// 图片水平居中
 				display: block;
@@ -153,11 +144,11 @@
 			}
 
 			.noticebar_text {
-				position: absolute;
-				width: 50%; // TODO 不显式设置宽度的话，absolute 下会看不到
+				// position: absolute;
+				// width: 50%; // TODO 不显式设置宽度的话，absolute 下会看不到
 
-				bottom: 0;
-				left: 120rpx;
+				// bottom: 0;
+				// left: 120rpx;
 			}
 
 

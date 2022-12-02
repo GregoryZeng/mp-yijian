@@ -1,8 +1,10 @@
 <template>
-	<view v-if="show" :class="rootViewClass" :style="{ backgroundColor }" @click="onClick" ref="noticebar">
+	<!-- <view v-if="show" :class="rootViewClass" :style="{ backgroundColor }" @click="onClick" ref="noticebar"> -->
+	<view v-if="show" :class="noticebar_classlist"  @click="onClick" ref="noticebar">
 		
-		<uni-icons v-if="showIcon === true || showIcon === 'true'" class="uni-noticebar-icon" type="sound"
-			:color="color" :size="fontSize * 1.5" />
+		<!-- <uni-icons v-if="showIcon === true || showIcon === 'true'" class="uni-noticebar-icon" type="sound"
+			:color="color" :size="fontSize * 1.5" /> -->
+		<image src="@/static/main/bell.png" class="bell"></image>
 		<view ref="textBox" class="uni-noticebar__content-wrapper" :class="{
 				'uni-noticebar__content-wrapper--scrollable': scrollable,
 				'uni-noticebar__content-wrapper--single': !scrollable && (single || moreText)
@@ -33,9 +35,11 @@
 				:style="{ color: moreColor, fontSize: fontSize + 'px' }">{{ moreText }}</text>
 			<uni-icons v-else type="right" :color="moreColor" :size="fontSize * 1.1" />
 		</view>
-		<view class="uni-noticebar-close uni-cursor-point" v-if="isShowClose">
+		
+		<image src="@/static/main/close.png" class="close-btn" @click="close" v-if="isShowClose"></image>
+		<!-- <view class="uni-noticebar-close uni-cursor-point" v-if="isShowClose">
 			<uni-icons type="closeempty" :color="color" :size="fontSize * 1.1" @click="close" />
-		</view>
+		</view> -->
 	</view>
 </template>
 
@@ -142,7 +146,7 @@
 				animationPlayState: 'paused',
 				animationDelay: '0s',
 
-				rootViewClass: ['uni-noticebar']
+				noticebar_classlist: ['uni-noticebar']
 			}
 		},
 		computed: {
@@ -285,12 +289,14 @@
 			close() {
 				// 关闭的动画参考 https://codepen.io/nato11111/pen/GRxYZJZ
 				
-				this.show = false;
-				// (function(el) {
-				// 	setTimeout(function() {
-				// 		el.show = false;
-				// 	}, 500);
-				// })(this);
+				this.noticebar_classlist.push('transition');
+				
+				// this.show = false;
+				(function(el) {
+					setTimeout(function() {
+						el.show = false;
+					}, 500);
+				})(this);
 
 				// this.show = false;
 				this.$emit('close')
@@ -303,6 +309,27 @@
 </script>
 
 <style lang="scss" scoped>
+	
+	.bell {
+		display:inline-block;
+		height:70rpx;
+		width:70rpx;
+		z-index: 5;
+		
+		// 往右平移
+		position: relative;
+		left: 40rpx;
+	}
+	
+	.close-btn{
+		height: 70rpx;
+		width: 70rpx;
+
+		// 往左平移
+		position: relative;
+		right: 50rpx;
+	}
+	
 	.uni-noticebar {
 		/* #ifndef APP-NVUE */
 		display: flex;
@@ -316,6 +343,21 @@
 		padding: 0 0;
 		
 		margin-bottom: 10px;
+		
+		
+		// 关闭动画
+		max-height: 100rpx;
+		position: relative;
+		transition: all 1s;
+		&.transition {
+			// 关闭公告栏的动画结束状态
+			opacity: 0;
+			transform: translateX(-100px);
+			margin: 0;
+			max-height: 0;
+		}
+		
+		
 	}
 
 	.uni-cursor-point {
@@ -331,12 +373,21 @@
 
 	.uni-noticebar-icon {
 		margin-right: 5px;
+		
+		
 	}
 
 	.uni-noticebar__content-wrapper {
 		flex: 1;
 		flex-direction: column;
 		overflow: hidden;
+		
+		// 背景的长条
+		background-image: url("@/static/main/board.png");
+		background-repeat: no-repeat;
+		background-size: contain;
+		padding: 16rpx 0 16rpx;
+		background-position: center;
 	}
 
 	.uni-noticebar__content-wrapper--single {
