@@ -4,11 +4,12 @@
 			<text>上传参考图片</text>
 			<view class="file-picker-boxed">
 				<yj-file-picker limit="1" fileMediatype="image" @success="form_data.init_image = $event.tempFilePaths"
-					@delete="form_data.init_image = ''" :init_img="'../../static/templates/pet-humanoid-upload-img.jpg'">
+					@delete="form_data.init_image = ''"
+					:init_img="'../../static/templates/pet-humanoid-upload-img.jpg'">
 				</yj-file-picker>
 				<image src="@/static/common/paw.png" class="deco-paw"></image>
 			</view>
-			
+
 		</view>
 
 		<view class="become-section">
@@ -25,25 +26,29 @@
 		<view class="n-images-section">
 			<text>生成张数</text>
 			<view class="slider-container">
-				<!-- <slider class="slider" min="1" max="8" value="1" step="1" @change="(evt) => form_data.n_images = evt.detail.value"
-					block-color="#eda721" show-value="true" block-size="28" />
-				 -->
-				
-				<yj-slider :min="1" :max="8" @changing="form_data.n_images = $event.value" block-size="130"
+				<!-- <slider class="slider" min="1" max="8" value="1" step="1"
+					@change="(evt) => form_data.n_images = evt.detail.value" block-color="#eda721" show-value="true"
+					block-size="28" /> -->
+
+				<!-- <yj-slider :min="1" :max="8" @changing="form_data.n_images = $event.value" block-size="130"
 					activeColor="#d8d8d8" blockColor="#eda721" blockOuterColor="rgba(0,0,0,0)" lineSize="20" >
-				</yj-slider>
+				</yj-slider> -->
+				
+				<radio-group @change="(evt) => form_data.n_images = +(evt.detail.value)">
+					<label v-for="(item, index) in n_images_options" :key="item"
+						:class="[{'selected': item === form_data.n_images}]">
+						<radio :value="item" :checked="item === form_data.n_images"></radio>
+						{{item}}
+					</label>
+				</radio-group>
 			</view>
 		</view>
 
-
 		<button class="submit-btn" @click="submit" :disabled="!form_data.init_image">马上变身吧！</button>
-
-
 
 		<!-- <view>{{form_data.init_image}}</view>
 		<view>{{form_data.become}}</view>
 		<view>{{form_data.n_images}}</view> -->
-
 	</view>
 </template>
 
@@ -52,6 +57,7 @@
 		data() {
 			return {
 				become_options: ['碰碰运气', '正太', '萝莉', '御姐', '总裁', '宝宝'],
+				n_images_options: [1,2,4],
 				form_data: {
 					init_image: "",
 					become: '碰碰运气',
@@ -62,13 +68,28 @@
 		methods: {
 			submit(e) {
 				console.log('submit');
-				uniCloud.callFunction({
-					name: 'submit-task',
-					data: {
-						task: 'pet-humanoid',
-						form_data: form_data
+				console.log(typeof this.form_data.n_images)
+				// uniCloud.callFunction({
+				// 	name: 'submit-task',
+				// 	data: {
+				// 		task: 'pet-humanoid',
+				// 		form_data: form_data
+				// 	}
+				// });
+
+				uni.navigateTo({
+					url: '/pages/detail/detail',
+					success() {
+						console.log('succ')
+					},
+					fail() {
+						console.log('fail')
+					},
+					complete() {
+						console.log('complete')
 					}
 				});
+
 			}
 		}
 	}
@@ -82,28 +103,57 @@
 		position: relative;
 	}
 
+	radio-group {
+		radio {
+			// 隐藏 radio
+			display: none;
+		}
+	
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	
+		row-gap:30rpx;
+		column-gap:20rpx;
+	
+		label {
+			text-align: center;
+	
+			border: solid;
+			border-radius: 20rpx;
+			padding: 15rpx 10rpx 15rpx;
+	
+			&.selected {
+				background-color: #eda721;
+	
+			}
+		}
+	}
+
+
 	.file-picker-section {
 		text {
 			display: block;
 			margin: 30rpx 0 30rpx;
+			
+			font-weight: bold;
 		}
-		
+
 		.file-picker-boxed {
 			margin: 0 auto 0;
 			border: solid;
 			border-radius: 20rpx;
 			padding: 15rpx;
-			
+
 			// 保证上传图片之后边框不坍缩
 			min-height: 480rpx;
-			
+
 			position: relative;
-			
+
 			// 让上传的图片竖直方向居中
 			display: flex;
 			align-items: center;
-			
-			.deco-paw{
+
+			.deco-paw {
 				// 将猫爪挂在边框上
 				position: absolute;
 				right: 0;
@@ -113,7 +163,7 @@
 				transform: translate(10%, 30%);
 			}
 		}
-		
+
 	}
 
 
@@ -123,33 +173,11 @@
 		text {
 			display: block;
 			margin: 30rpx 0 30rpx;
+			
+			font-weight: bold;
 		}
 
-		radio-group {
-			radio {
-				// 隐藏 radio
-				display: none;
-			}
-
-			display: grid;
-			grid-template-columns: repeat(3, minmax(0, 1fr));
-
-			row-gap:30rpx;
-			column-gap:20rpx;
-
-			label {
-				text-align: center;
-
-				border: solid;
-				border-radius: 20rpx;
-				padding: 15rpx 10rpx 15rpx;
-
-				&.selected {
-					background-color: #eda721;
-
-				}
-			}
-		}
+		
 
 	}
 
@@ -159,15 +187,15 @@
 		text {
 			display: block;
 			margin: 30rpx 0 30rpx;
+			
+			font-weight: bold;
 		}
 
 		.slider-container {
 			position: relative;
-			margin: 0 30rpx 0;
-			
-			.slider{
-				
-			}
+			// margin: 0 30rpx 0;
+
+			.slider {}
 		}
 	}
 
@@ -182,7 +210,7 @@
 
 		// TODO：计算安全区？
 		bottom: 100rpx;
-		
+
 
 		border: solid;
 		border-radius: 30rpx;

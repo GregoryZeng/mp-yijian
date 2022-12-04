@@ -2,6 +2,13 @@
 	<view class="uni-file-picker__container">
 		<!-- 未上传时的预览图 -->
 		<image :src="init_img" @click="choose" v-if="filesList.length === 0 && init_img"></image>
+		<view class="upload-prompt" @click="choose" v-if="filesList.length === 0 && init_img">
+			<view class="plus">
+				<!-- <text>+</text> -->
+				+
+			</view>
+			<text class="upload-text"> 上传图片 </text>
+		</view>
 		
 		<view class="file-picker__box" v-for="(item,index) in filesList" :key="index" :style="boxStyle">
 			<view class="file-picker__box-content" :style="borderStyle">
@@ -199,6 +206,64 @@
 		// 居中
 		justify-content: center;
 
+		position: relative;
+	}
+	
+	.upload-prompt{
+		position: absolute;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		
+		gap: 12rpx;
+		
+		background-color: rgba(0,0,0,0.5);
+		
+		
+		left: 50%;
+		top: 50%;
+		transform: translate(-50%, -50%);
+		
+		padding: 10rpx;
+		border-radius: 10rpx;
+		
+		// aspect-ratio: 1;
+		width: 120rpx;
+		height: 120rpx;
+		
+		.plus{
+			background: white;
+			
+			border-radius: 5rpx;
+			
+			width: 50rpx;
+			height: 50rpx;
+			
+			// aspect-ratio: 1;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			
+			position: relative;
+			
+			line-height: 50rpx; 
+			// font-size: 50rpx;
+			// text{
+			// 	position: absolute;
+			// 	left: 50%;
+			// 	top: 50%;
+			// 	transform: translate(-50%, -50%);
+			// 	margin: 0;
+			// 	font-size: 50rpx;
+			// }
+		}
+		
+		.upload-text{
+			color: white;
+			margin: 0;
+			font-size: 30rpx;
+		}
 	}
 
 	.file-picker__box {

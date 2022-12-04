@@ -15,7 +15,8 @@
 
 			<!-- <button @click="clickClose">close</button> -->
 			<view class="template_grid">
-				<view class="template_item" v-for="(item,index) in templates" :key="title">
+				<view class="template_item" v-for="(item,index) in templates" :key="title"
+					@click="click_template(index)">
 					<image class="template_thumbnail" :src="item.image_url" mode="aspectFit"></image>
 					<view class="template_desc">
 						<text>{{item.title}}</text>
@@ -30,7 +31,7 @@
 		<!-- 下方 tabbar -->
 		<view class="tabbar">
 			<view class="tabbar_elem tabbar_elem_selected">创作+</view>
-			<view class="tabbar_elem">我的</view>
+			<view class="tabbar_elem" @click="switchToMyPage">我的</view>
 
 		</view>
 
@@ -42,21 +43,34 @@
 		data() {
 			return {
 				current_tab: 0,
-				tabs: [
-					{id:1, name: 'AI配方', disabled: false},
-					{id:2, name: '实验室', disabled: true},
+				tabs: [{
+						id: 1,
+						name: 'AI配方',
+						disabled: false
+					},
+					{
+						id: 2,
+						name: '实验室',
+						disabled: true
+					},
 				],
 				noticebar_classlist: ['noticebar'],
-				
-				templates: [
-					{
-						image_url: "../../static/main/template.png",
-						title: '萌宠大变身'
+
+				templates: [{
+						image_url: "https://mp-ebf46e6b-2e61-4306-8125-6e286aa5ab21.cdn.bspapp.com/cloudstorage/bfaef5df-9470-4e7a-8feb-c651f0e5078c.png",
+						title: '萌宠大变身',
+						page: "/pages/templates/pet_humanoid"
 					},
-					{
-						image_url: "../../static/main/template.png",
-						title: '迪士尼公主'
-					},
+					// {
+					// 	image_url: "https://mp-ebf46e6b-2e61-4306-8125-6e286aa5ab21.cdn.bspapp.com/cloudstorage/bfaef5df-9470-4e7a-8feb-c651f0e5078c.png",
+					// 	title: '萌宠大变身',
+					// 	page: "/pages/templates/pet_humanoid"
+					// },
+					// {
+					// 	image_url: "https://mp-ebf46e6b-2e61-4306-8125-6e286aa5ab21.cdn.bspapp.com/cloudstorage/bfaef5df-9470-4e7a-8feb-c651f0e5078c.png",
+					// 	title: '萌宠大变身',
+					// 	page: "/pages/templates/pet_humanoid"
+					// },
 				]
 			};
 		},
@@ -65,10 +79,10 @@
 				console.log('当前选中的项：' + index)
 			},
 
-			clickDisabled(index){
+			clickDisabled(index) {
 				uni.showToast({
-					title:'实验室正在施工中~',
-					icon:'none'
+					title: '实验室正在施工中...',
+					icon: 'none'
 				})
 			},
 
@@ -78,8 +92,30 @@
 				setTimeout(this.$refs.noticebar.close, 1000)
 
 			},
-			
-			
+
+			click_template(index) {
+				// 不知道为啥传 item 就不行
+				console.log('click_template', index)
+				
+				uni.navigateTo({
+					url: this.templates[index].page
+				})
+			},
+
+			switchToMyPage(){
+				uni.switchTab({
+					url: '/pages/my/my',
+					success() {
+						console.log('succ')
+					},
+					fail() {
+						console.log('fail')
+					},
+					complete(){
+						console.log('complete')
+					}
+				});
+			}
 		}
 	}
 </script>
@@ -91,8 +127,8 @@
 	}
 
 	.scrollable_view {
-		
-		
+
+
 		// 可滑动页高度
 		// TODO: 应该根据实际机型动态计算
 		width: auto;
@@ -112,7 +148,9 @@
 
 		.noticebar {
 			// 公告栏（包括图片、滚动文字、关闭按钮）
-			
+
+			margin-top: 20rpx;
+
 			.noticebar_img {
 				// 图片水平居中
 				display: block;
@@ -157,6 +195,12 @@
 					padding: 16rpx 0 16rpx;
 					background-position: center;
 
+					text{
+						font-weight: bold;
+						
+						display: inline-block;
+						translate: 10%; 
+					}
 				}
 			}
 		}
@@ -188,6 +232,8 @@
 			background-repeat: no-repeat;
 			background-size: contain;
 			background-position: center;
+
+			font-weight: bold;
 
 			// 未选中态按钮图片
 			background-image: url("@/static/main/tabbar-unselected.png");
