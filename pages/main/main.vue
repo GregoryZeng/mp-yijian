@@ -1,11 +1,11 @@
 <template>
-	<view class="page">
+	<view class="page" :style="{'height': page_height}">
 		<!-- 上方的 tab：AI配方/实验室 -->
 		<yj-main-tabs v-model="current_tab" :tabs="tabs" @change="changeTab" fontSize="35rpx" color="#585657"
-			activeColor="#000000" lineColor="#000000" field="name" @clickDisabled="clickDisabled"></yj-main-tabs>
+			activeColor="#000000" lineColor="#000000" field="name" @clickDisabled="clickDisabled" class="not-scrollview"></yj-main-tabs>
 
 		<!-- 中间的模板列表 -->
-		<scroll-view class="scrollable_view" scroll-y="true" scroll-x="false">
+		<scroll-view class="scrollable_view" scroll-y="true" scroll-x="false" >
 			<view :class="noticebar_classlist">
 				<!-- <image class="noticebar_img" src="@/static/main/noticebar.png" mode="aspectFit"></image> -->
 				<yj-notice-bar class="noticebar_text" scrollable single backgroundColor="rgb(0,0,0,0)"
@@ -13,7 +13,6 @@
 				</yj-notice-bar>
 			</view>
 
-			<!-- <button @click="clickClose">close</button> -->
 			<view class="template_grid">
 				<view class="template_item" v-for="(item,index) in templates" :key="title"
 					@click="click_template(index)">
@@ -29,7 +28,7 @@
 		</scroll-view>
 
 		<!-- 下方 tabbar -->
-		<view class="tabbar">
+		<view class="tabbar not-scrollview">
 			<view class="tabbar_elem tabbar_elem_selected">创作+</view>
 			<view class="tabbar_elem" @click="switchToMyPage">我的</view>
 
@@ -61,20 +60,79 @@
 						title: '萌宠大变身',
 						page: "/pages/templates/pet_humanoid"
 					},
-					// {
-					// 	image_url: "https://mp-ebf46e6b-2e61-4306-8125-6e286aa5ab21.cdn.bspapp.com/cloudstorage/bfaef5df-9470-4e7a-8feb-c651f0e5078c.png",
-					// 	title: '萌宠大变身',
-					// 	page: "/pages/templates/pet_humanoid"
-					// },
-					// {
-					// 	image_url: "https://mp-ebf46e6b-2e61-4306-8125-6e286aa5ab21.cdn.bspapp.com/cloudstorage/bfaef5df-9470-4e7a-8feb-c651f0e5078c.png",
-					// 	title: '萌宠大变身',
-					// 	page: "/pages/templates/pet_humanoid"
-					// },
-				]
+					{
+						image_url: "https://mp-ebf46e6b-2e61-4306-8125-6e286aa5ab21.cdn.bspapp.com/cloudstorage/bfaef5df-9470-4e7a-8feb-c651f0e5078c.png",
+						title: '萌宠大变身',
+						page: "/pages/templates/pet_humanoid"
+					},
+					{
+						image_url: "https://mp-ebf46e6b-2e61-4306-8125-6e286aa5ab21.cdn.bspapp.com/cloudstorage/bfaef5df-9470-4e7a-8feb-c651f0e5078c.png",
+						title: '萌宠大变身',
+						page: "/pages/templates/pet_humanoid"
+					},
+					{
+						image_url: "https://mp-ebf46e6b-2e61-4306-8125-6e286aa5ab21.cdn.bspapp.com/cloudstorage/bfaef5df-9470-4e7a-8feb-c651f0e5078c.png",
+						title: '萌宠大变身',
+						page: "/pages/templates/pet_humanoid"
+					},
+					{
+						image_url: "https://mp-ebf46e6b-2e61-4306-8125-6e286aa5ab21.cdn.bspapp.com/cloudstorage/bfaef5df-9470-4e7a-8feb-c651f0e5078c.png",
+						title: '萌宠大变身',
+						page: "/pages/templates/pet_humanoid"
+					},
+					{
+						image_url: "https://mp-ebf46e6b-2e61-4306-8125-6e286aa5ab21.cdn.bspapp.com/cloudstorage/bfaef5df-9470-4e7a-8feb-c651f0e5078c.png",
+						title: '萌宠大变身',
+						page: "/pages/templates/pet_humanoid"
+					},
+					{
+						image_url: "https://mp-ebf46e6b-2e61-4306-8125-6e286aa5ab21.cdn.bspapp.com/cloudstorage/bfaef5df-9470-4e7a-8feb-c651f0e5078c.png",
+						title: '萌宠大变身',
+						page: "/pages/templates/pet_humanoid"
+					},
+					{
+						image_url: "https://mp-ebf46e6b-2e61-4306-8125-6e286aa5ab21.cdn.bspapp.com/cloudstorage/bfaef5df-9470-4e7a-8feb-c651f0e5078c.png",
+						title: '萌宠大变身',
+						page: "/pages/templates/pet_humanoid"
+					},
+					{
+						image_url: "https://mp-ebf46e6b-2e61-4306-8125-6e286aa5ab21.cdn.bspapp.com/cloudstorage/bfaef5df-9470-4e7a-8feb-c651f0e5078c.png",
+						title: '萌宠大变身',
+						page: "/pages/templates/pet_humanoid"
+					},
+					{
+						image_url: "https://mp-ebf46e6b-2e61-4306-8125-6e286aa5ab21.cdn.bspapp.com/cloudstorage/bfaef5df-9470-4e7a-8feb-c651f0e5078c.png",
+						title: '萌宠大变身',
+						page: "/pages/templates/pet_humanoid"
+					},
+				],
+				
+				
+				page_height: 'auto'
 			};
 		},
+		onShow() {
+			uni.getSystemInfo({
+				success: function(res) {
+					console.log("屏幕宽度 screenWidth：" + res.screenWidth);
+					console.log("屏幕高度 screenHeight：" + res.screenHeight);
+					console.log("可使用窗口宽度 windowWidth：" + res.windowWidth);
+					console.log("可使用窗口高度 windowHeight：" + res.windowHeight);
+				}
+			});
+		},
+		
+		onReady() {
+			this.page_height = getApp().globalData.systeminfo.windowHeight + 'px';
+		},
+
 		methods: {
+			rpx2px(rpx){
+				let w = getApp().globalData.systeminfo.screenWidth;
+				console.log('screenwidth', w)
+				return w / 750 * rpx;
+			},
+			
 			changeTab(index) {
 				console.log('当前选中的项：' + index)
 			},
@@ -96,24 +154,15 @@
 			click_template(index) {
 				// 不知道为啥传 item 就不行
 				console.log('click_template', index)
-				
+
 				uni.navigateTo({
 					url: this.templates[index].page
 				})
 			},
 
-			switchToMyPage(){
+			switchToMyPage() {
 				uni.switchTab({
 					url: '/pages/my/my',
-					success() {
-						console.log('succ')
-					},
-					fail() {
-						console.log('fail')
-					},
-					complete(){
-						console.log('complete')
-					}
 				});
 			}
 		}
@@ -124,6 +173,9 @@
 	.page {
 		// 控制
 		padding: 0 20rpx 0;
+		
+		display: flex;
+		flex-direction: column;
 	}
 
 	.scrollable_view {
@@ -132,7 +184,8 @@
 		// 可滑动页高度
 		// TODO: 应该根据实际机型动态计算
 		width: auto;
-		height: 1170rpx;
+		// height: 1170rpx;
+		flex: 1;
 
 		// 可滑动页水平居中
 		// top horizontal bottom
@@ -166,8 +219,6 @@
 		}
 
 
-
-
 		.template_grid {
 			// margin-top: -30rpx;
 
@@ -195,11 +246,11 @@
 					padding: 16rpx 0 16rpx;
 					background-position: center;
 
-					text{
+					text {
 						font-weight: bold;
-						
+
 						display: inline-block;
-						translate: 10%; 
+						translate: 10%;
 					}
 				}
 			}
@@ -218,6 +269,9 @@
 
 	.tabbar {
 		display: flex;
+
+		padding-bottom: constant(safe-area-inset-bottom);
+		padding-bottom: env(safe-area-inset-bottom);
 
 		.tabbar_elem {
 			display: inline-block;

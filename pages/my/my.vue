@@ -1,15 +1,16 @@
 <template>
-	<view class="page">
-		<view class="user-info-section">
-			<view class="pfp-container">
-				<image class="pfp" src="../../static/main/template.png"></image>
+	<view class="page" :style="{'height': page_height}">
+		
+		<scroll-view class="my-work-section" scroll-y="true" > 
+			<view class="user-info-section">
+				<view class="pfp-container">
+					<image class="pfp" src="../../static/main/template.png"></image>
+				</view>
+				<view class="username">魔法师xx号</view>
+				<view class="level">等级：初级魔法师</view>
 			</view>
-			<view class="username">魔法师xx号</view>
-			<view class="level">等级：初级魔法师</view>
-		</view>
-
-
-		<view class="my-work-section">
+			
+			
 			<view class="section-name">我的画作</view>
 
 			<view class="image_grid">
@@ -17,7 +18,7 @@
 					<image :src="item.img_url" mode="aspectFit"></image>
 				</view>
 			</view>
-		</view>
+		</scroll-view>
 
 		<!-- 下方 tabbar -->
 		<view class="tabbar">
@@ -33,41 +34,78 @@
 	export default {
 		data() {
 			return {
-				my_work_list: [{
-						id: 0,
-						img_url: '../../static/main/template.png'
-					},
-					{
-						id: 1,
-						img_url: '../../static/main/bell.png'
-					},
-					{
-						id: 2,
-						img_url: '../../static/main/board.png'
-					},
-					{
-						id: 3,
-						img_url: '../../static/main/close.png'
-					},
-					{
-						id: 4,
-						img_url: '../../static/main/noticebar.png'
-					},
-					{
-						id: 5,
-						img_url: '../../static/main/paw-btn.png'
-					},
-					{
-						id: 6,
-						img_url: '../../static/main/tabbar-selected.png'
-					},
-					{
-						id: 7,
-						img_url: '../../static/main/tabbar-unselected.png'
-					}
+				page_height: 'auto',
+				my_work_list: [
+				//  {
+				// 		id: 0,
+				// 		img_url: '../../static/main/template.png'
+				// 	},
+				// 	{
+				// 		id: 1,
+				// 		img_url: '../../static/main/bell.png'
+				// 	},
+				// 	{
+				// 		id: 2,
+				// 		img_url: '../../static/main/board.png'
+				// 	},
+				// 	{
+				// 		id: 3,
+				// 		img_url: '../../static/main/close.png'
+				// 	},
+				// 	{
+				// 		id: 4,
+				// 		img_url: '../../static/main/noticebar.png'
+				// 	},
+				// 	{
+				// 		id: 5,
+				// 		img_url: '../../static/main/paw-btn.png'
+				// 	},
+				// 	{
+				// 		id: 6,
+				// 		img_url: '../../static/main/tabbar-selected.png'
+				// 	},
+				// 	{
+				// 		id: 7,
+				// 		img_url: '../../static/main/tabbar-unselected.png'
+				// 	},
+				// 	{
+				// 		id: 8,
+				// 		img_url: '../../static/main/tabbar-unselected.png'
+				// 	},
+				// 	{
+				// 		id: 9,
+				// 		img_url: '../../static/main/tabbar-unselected.png'
+				// 	},
+				// 	{
+				// 		id: 10,
+				// 		img_url: '../../static/main/tabbar-unselected.png'
+				// 	},
+				// 	{
+				// 		id: 11,
+				// 		img_url: '../../static/main/tabbar-unselected.png'
+				// 	},
+				// 	{
+				// 		id: 12,
+				// 		img_url: '../../static/main/tabbar-unselected.png'
+				// 	},
+				// 	{
+				// 		id: 13,
+				// 		img_url: '../../static/main/tabbar-unselected.png'
+				// 	},
+				// 	{
+				// 		id: 14,
+				// 		img_url: '../../static/main/tabbar-unselected.png'
+				// 	},
+				// 	{
+				// 		id: 15,
+				// 		img_url: '../../static/main/tabbar-unselected.png'
+				// 	}
 				],
 
 			};
+		},
+		onReady() {
+			this.page_height = getApp().globalData.systeminfo.windowHeight + 'px';
 		},
 		methods:{
 			switchToMain(){
@@ -91,6 +129,9 @@
 <style lang="scss">
 	.page {
 		padding: 0 20rpx 0;
+		
+		display: flex;
+		flex-direction: column;
 	}
 
 	.user-info-section {
@@ -133,8 +174,16 @@
 	}
 
 	.my-work-section {
+		
+		flex: 1;
+		
+		overflow: hidden;
+		transform: translateY(0);
+		
 		.section-name{
 			margin-bottom: 20rpx;
+			
+			font-weight: bold;
 		}
 		
 		.image_grid {
@@ -160,7 +209,10 @@
 	
 	.tabbar {
 		display: flex;
-	
+		
+		padding-bottom: constant(safe-area-inset-bottom);
+		padding-bottom: env(safe-area-inset-bottom);
+		
 		.tabbar_elem {
 			display: inline-block;
 			flex-basis: 0;

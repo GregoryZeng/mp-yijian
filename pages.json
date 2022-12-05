@@ -76,6 +76,8 @@
 		"current": 1
 	},
 	"tabBar": {
+		"custom": true,
+		"height": "0px",
 		"color": "#7A7E83",
 		"selectedColor": "#007AFF",
 		"borderStyle": "black",

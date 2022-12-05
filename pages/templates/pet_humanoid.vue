@@ -26,10 +26,12 @@
 		<view class="n-images-section">
 			<text>生成张数</text>
 			<view class="slider-container">
+				<!-- 原生 slider 不好看 -->
 				<!-- <slider class="slider" min="1" max="8" value="1" step="1"
 					@change="(evt) => form_data.n_images = evt.detail.value" block-color="#eda721" show-value="true"
 					block-size="28" /> -->
 
+				<!-- 改造的 slider 稳定性不好 -->
 				<!-- <yj-slider :min="1" :max="8" @changing="form_data.n_images = $event.value" block-size="130"
 					activeColor="#d8d8d8" blockColor="#eda721" blockOuterColor="rgba(0,0,0,0)" lineSize="20" >
 				</yj-slider> -->

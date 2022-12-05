@@ -52,7 +52,11 @@
 				fail() {
 					console.log('hide tabbar fail');
 				}
-			})
+			});
+			
+			// 获取 systeminfo，并存起来
+			this.globalData.systeminfo = uni.getSystemInfoSync();
+			
 		},
 		onShow: function() {
 			console.log('App Show')
