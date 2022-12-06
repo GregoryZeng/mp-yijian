@@ -1,0 +1,53 @@
+{
+	"bsonType": "object",
+	"required": [],
+	"permission": {
+		"read": true,
+		"create": false,
+		"update": false,
+		"delete": false
+	},
+	"properties": {
+		"_id": {
+			"description": "ID，系统自动生成"
+		},
+		"user_id":{
+			"bsonType": "string",
+			"description": "作者用户 id",
+			"foreignKey": "uni-id-users._id",
+			"defaultValue": {
+				"$env": "uid"
+			}
+		},
+		"create_date": {
+			"bsonType": "timestamp",
+			"description": "task创建时间",
+			"forceDefaultValue": {
+				"$env": "now"
+			}
+		},
+		"task":{
+			"bsonType": "string",
+			"description": "任务类型"
+		},
+		"form_data": {
+			"bsonType": "object",
+			"description": "提交给webui的表单"
+		},
+		
+		"status": {
+			"bsonType": "string",
+			"description": "可能取值 waiting/done",
+			"defaultValue": "waiting"
+		},
+		"result": {
+			"bsonType": "object",
+			"description": "生成结果；如果是图片列表，则包含字段 img_list"
+		},
+		"is_nsfw":{
+			"bsonType": "bool",
+			"description": "是否被检测为NSFW",
+			"defaultValue": false
+		}
+	}
+}

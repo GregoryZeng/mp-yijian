@@ -1,11 +1,13 @@
 <script>
 	import initApp from '@/common/appInit.js';
 	import openApp from '@/common/openApp.js';
+	const uniIdCo = uniCloud.importObject('uni-id-co');
 	// #ifdef H5
 		openApp() //创建在h5端全局悬浮引导用户下载app的功能
 	// #endif
 	// import checkIsAgree from '@/pages/uni-agree/utils/uni-agree.js';
 	import uniIdPageInit from '@/uni_modules/uni-id-pages/init.js';
+	import check_if_login from '@/common/check-if-login.js'
 	export default {
 		globalData: {
 			searchText: '',
@@ -56,6 +58,44 @@
 			
 			// 获取 systeminfo，并存起来
 			this.globalData.systeminfo = uni.getSystemInfoSync();
+			
+			
+			// 如果普通云函数调用返回包含 newToken，则取里面的 token 和 tokenExpired
+			// https://zh.uniapp.dcloud.io/uniCloud/client-sdk.html#add-interceptor
+			// https://zh.uniapp.dcloud.io/uniCloud/cf-functions.html#resformat
+			uniCloud.addInterceptor('callFunction',{
+				success(res){
+					console.log('intercept callfunction', res);
+					if('newToken' in res.result){
+						let newToken = res.result.newToken;
+						console.log('newToken updated', newToken);
+						uni.setStorage({
+							key: 'uni_id_token',
+							data: newToken['token']
+						});
+						uni.setStorage({
+							key: 'uni_id_token_expired',
+							data: newToken['tokenExpired']
+						});
+					}
+				}
+			});
+			
+			// 注册/登录
+			// https://uniapp.dcloud.net.cn/api/plugins/login.html
+			if(!check_if_login()){
+				uni.login({
+					success(res){
+						console.log('uni.login', res);
+						uniIdCo.loginByWeixin({
+							code: res.code
+						}).then(res=>{
+							console.log('uni loginByWeixin', res);
+						});
+					}
+				});
+			}
+			
 			
 		},
 		onShow: function() {

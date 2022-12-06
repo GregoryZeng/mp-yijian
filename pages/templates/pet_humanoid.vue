@@ -35,7 +35,7 @@
 				<!-- <yj-slider :min="1" :max="8" @changing="form_data.n_images = $event.value" block-size="130"
 					activeColor="#d8d8d8" blockColor="#eda721" blockOuterColor="rgba(0,0,0,0)" lineSize="20" >
 				</yj-slider> -->
-				
+
 				<radio-group @change="(evt) => form_data.n_images = +(evt.detail.value)">
 					<label v-for="(item, index) in n_images_options" :key="item"
 						:class="[{'selected': item === form_data.n_images}]">
@@ -47,7 +47,10 @@
 		</view>
 
 		<button class="submit-btn" @click="submit" :disabled="!form_data.init_image">马上变身吧！</button>
+		<!-- false && -->
 
+
+		<!-- 测试用 -->
 		<!-- <view>{{form_data.init_image}}</view>
 		<view>{{form_data.become}}</view>
 		<view>{{form_data.n_images}}</view> -->
@@ -59,7 +62,7 @@
 		data() {
 			return {
 				become_options: ['碰碰运气', '正太', '萝莉', '御姐', '总裁', '宝宝'],
-				n_images_options: [1,2,4],
+				n_images_options: [1, 2, 4],
 				form_data: {
 					init_image: "",
 					become: '碰碰运气',
@@ -70,25 +73,37 @@
 		methods: {
 			submit(e) {
 				console.log('submit');
-				console.log(typeof this.form_data.n_images)
-				// uniCloud.callFunction({
-				// 	name: 'submit-task',
-				// 	data: {
-				// 		task: 'pet-humanoid',
-				// 		form_data: form_data
-				// 	}
-				// });
-
-				uni.navigateTo({
-					url: '/pages/detail/detail',
-					success() {
-						console.log('succ')
-					},
-					fail() {
-						console.log('fail')
-					},
-					complete() {
-						console.log('complete')
+				uniCloud.callFunction({
+					name: 'submit-task',
+					data: {
+						task: 'pet-humanoid',
+						form_data: this.form_data
+					}
+				}).then(res => {
+					console.log(res);
+					if (!res.errCode) {
+						if (res.result.errCode) {
+							console.log('res.result.errCode true', res.errCode)
+							uni.showToast({
+								title: res.result.errMsg,
+								icon: 'none'
+							});
+						} else {
+							console.log('res.result.errCode false', res.errCode)
+							let task_id = res.result.task_id;
+							uni.navigateTo({
+								url: `/pages/detail/detail?task_id=${task_id}&init_image=${init_image}&n_images=${n_images}`,
+								success() {
+									console.log('succ')
+								},
+								fail() {
+									console.log('fail')
+								},
+								complete() {
+									console.log('complete')
+								}
+							});
+						}
 					}
 				});
 
@@ -110,23 +125,23 @@
 			// 隐藏 radio
 			display: none;
 		}
-	
+
 		display: grid;
 		grid-template-columns: repeat(3, minmax(0, 1fr));
-	
+
 		row-gap:30rpx;
 		column-gap:20rpx;
-	
+
 		label {
 			text-align: center;
-	
+
 			border: solid;
 			border-radius: 20rpx;
 			padding: 15rpx 10rpx 15rpx;
-	
+
 			&.selected {
 				background-color: #eda721;
-	
+
 			}
 		}
 	}
@@ -136,7 +151,7 @@
 		text {
 			display: block;
 			margin: 30rpx 0 30rpx;
-			
+
 			font-weight: bold;
 		}
 
@@ -175,11 +190,11 @@
 		text {
 			display: block;
 			margin: 30rpx 0 30rpx;
-			
+
 			font-weight: bold;
 		}
 
-		
+
 
 	}
 
@@ -189,7 +204,7 @@
 		text {
 			display: block;
 			margin: 30rpx 0 30rpx;
-			
+
 			font-weight: bold;
 		}
 

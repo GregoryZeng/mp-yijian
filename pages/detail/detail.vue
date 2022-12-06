@@ -4,10 +4,10 @@
 		<view class="main-area">
 			<view class="init-img-loading-info">
 				<view class="init-img-container">
-					<image class="init-img" src="../../static/main/bell.png" mode="aspectFit"></image>
+					<image class="init-img" :src="init_image_url" mode="aspectFit"></image>
 				</view>
-				<text class="est-time">施法过程还有60秒</text>
-				<button class="accelerate-btn">消耗魔力即可加速</button>
+				<text class="est-time" ref="est-time">施法过程还有60秒</text>
+				<!-- <button class="accelerate-btn" >消耗魔力即可加速</button> -->
 			</view>
 
 			<view class="result-imgs">
@@ -20,9 +20,9 @@
 				
 				<view class="swiper-touchmove-blocker" @click="previewImage"></view>
 
-				<scroll-view scroll-x="true" scroll-y="false" class="horizontal-thumbnails"
-					  :scroll-left="scroll_info.scrollLeft" :scroll-into-view="`pos_${scroll_current_idx}`">
-					 
+				<scroll-view scroll-x="true" scroll-y="false" class="horizontal-thumbnails">
+					<!-- :scroll-into-view="`pos_${scroll_current_idx}`" -->
+					
 					<image v-for="(item, index) in result_imgs" :key="id" :id="`pos_${index}`" :src="item.url"
 						:class="['thumbnail', {'not-first': index!==0 }, {'not-selected': index!==current_idx}]"
 						@click="current_idx=index" mode="aspectFit" ></image>
@@ -63,71 +63,66 @@
 			return {
 				current_idx: 0,
 				swiper_current_idx: 0,
-				scroll_current_idx: 0,
-				result_imgs: [{
-						id: 0,
-						url: '../../static/main/template.png'
-					},
-					{
-						id: 1,
-						url: '../../static/main/bell.png'
-					},
-					{
-						id: 2,
-						url: '../../static/main/board.png'
-					},
-					{
-						id: 3,
-						url: '../../static/main/close.png'
-					},
-					{
-						id: 4,
-						url: '../../static/main/noticebar.png'
-					},
-					{
-						id: 5,
-						url: '../../static/main/paw-btn.png' 
-					},
-					{
-						id: 6,
-						url: '../../static/main/tabbar-selected.png'
-					},
-					{
-						id: 7,
-						url: '../../static/main/tabbar-unselected.png'
-					} 
-				],
-				scroll_info:{
-					scrollLeft: 0,
-					scrollWidth: null
-				}
+				// scroll_current_idx: 0,
+				
+				
+				task_id: null,
+				n_images: null,
+				init_image: null,
+				
+				done: false,
+				est_time_in_secs: 60,
+				timer: null, // 轮询定时器
+				result_imgs: [],
 			};
 		},
+		onLoad(option){
+			console.log(option);
+			let {task_id, n_images, init_image} = option;
+			this.task_id = task_id;
+			this.n_images = n_images;
+			this.init_image = init_image;
+			
+		},
+		onShow() {
+			if(!this.done){
+				this.timer = setInterval(this.pollResult, 1000);
+			}
+		},
+		onUnload() {
+			this.clearTimer();
+		},
+		onHide(){
+			this.clearTimer();
+		},
+		destroyed() {
+			this.clearTimer();
+		},
 		methods:{
-			swiper_change(e){
-				// DEPRECATED 目前不允许用户划动 swiper
+			// swiper_change(e){
+			// 	// DEPRECATED 目前不允许用户划动 swiper
 				
-				console.log('swiper change')
-				console.log('source', e.detail.source)
+			// 	console.log('swiper change')
+			// 	console.log('source', e.detail.source)
 				
-				if(e.detail.source === 'touch'){
-					// 仅在滑动  swiper 时才修改 scroll_current_idx
-					this.current_idx = e.detail.current;
-					// 假设一行最多显示4个缩略图
+			// 	if(e.detail.source === 'touch'){
+			// 		// 仅在滑动  swiper 时才修改 scroll_current_idx
+			// 		this.current_idx = e.detail.current;
+			// 		// 假设一行最多显示4个缩略图
 					
-					// TODO 因为暂无办法判断当前 scroll view 有没有显示当前图片，目前实现不太完美
-					// 另一种待测试的方法：判断元素是否在可视区域 
-					if(this.current_idx > this.scroll_current_idx+3){
-						this.scroll_current_idx = this.current_idx - 3;
-					}else if(this.current_idx < this.scroll_current_idx){
-						this.scroll_current_idx = this.current_idx;
-					}else{
-						this.scroll_current_idx = this.scroll_current_idx;
-					}
-				} 
-				console.log('current_idx', this.current_idx)
-				console.log('scroll_current_idx', this.scroll_current_idx)
-			},
+			// 		// TODO 因为暂无办法判断当前 scroll view 有没有显示当前图片，目前实现不太完美
+			// 		// 另一种待测试的方法：判断元素是否在可视区域 
+			// 		if(this.current_idx > this.scroll_current_idx+3){
+			// 			this.scroll_current_idx = this.current_idx - 3;
+			// 		}else if(this.current_idx < this.scroll_current_idx){
+			// 			this.scroll_current_idx = this.current_idx;
+			// 		}else{
+			// 			this.scroll_current_idx = this.scroll_current_idx;
+			// 		}
+			// 	} 
+			// 	console.log('current_idx', this.current_idx)
+			// 	console.log('scroll_current_idx', this.scroll_current_idx)
+			// },
 			
 			previewImage(){
 				console.log('preview_image')
@@ -143,6 +138,38 @@
 						console.log('fail')
 					}
 				});
+			},
+			
+			async pollResult(){
+				console.log('pollResult');
+				console.log(this.$refs['est-time'])
+				let {done, result_imgs} = (await uniCloud.callFunction({
+					name: 'poll-result',
+					data:{
+						task_id: this.task_id
+					}
+				})).result;
+				console.log(done)
+				
+				if(done){
+					this.done = done;
+					this.clearTimer();
+					this.result_imgs = result_imgs;
+				}else{
+					if(this.est_time_in_secs > 1){
+						this.est_time_in_secs -= 1;
+
+					}
+					
+				}
+				
+			},
+			
+			clearTimer(){
+				if(this.timer){
+					clearInterval(this.timer);
+					this.timer = null;
+				}
 			}
 		}
 		

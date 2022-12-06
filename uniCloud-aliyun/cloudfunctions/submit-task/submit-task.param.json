@@ -1,0 +1,6 @@
+// 本文件中的json内容将在云函数【运行】时作为参数传给云函数。
+// 配置教程参考：https://uniapp.dcloud.net.cn/uniCloud/rundebug.html#runparam
+{
+	"uniIdToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2MzhkOTI0OWY1Y2YzYTk1OWE0ZGU5M2MiLCJyb2xlIjpbXSwicGVybWlzc2lvbiI6W10sInVuaUlkVmVyc2lvbiI6IjEuMC4xMyIsImlhdCI6MTY3MDIyMjc0MywiZXhwIjoxNjcyODE0NzQzfQ.7tFXv5aUTCikm5HpIqvAPJCBylgxEjrSRixikr5e13M",
+	"task": "test"
+}

@@ -54,61 +54,15 @@
 					},
 				],
 				noticebar_classlist: ['noticebar'],
-
+				page_height: 'auto',
+				
 				templates: [{
 						image_url: "https://mp-ebf46e6b-2e61-4306-8125-6e286aa5ab21.cdn.bspapp.com/cloudstorage/bfaef5df-9470-4e7a-8feb-c651f0e5078c.png",
 						title: '萌宠大变身',
 						page: "/pages/templates/pet_humanoid"
 					},
-					{
-						image_url: "https://mp-ebf46e6b-2e61-4306-8125-6e286aa5ab21.cdn.bspapp.com/cloudstorage/bfaef5df-9470-4e7a-8feb-c651f0e5078c.png",
-						title: '萌宠大变身',
-						page: "/pages/templates/pet_humanoid"
-					},
-					{
-						image_url: "https://mp-ebf46e6b-2e61-4306-8125-6e286aa5ab21.cdn.bspapp.com/cloudstorage/bfaef5df-9470-4e7a-8feb-c651f0e5078c.png",
-						title: '萌宠大变身',
-						page: "/pages/templates/pet_humanoid"
-					},
-					{
-						image_url: "https://mp-ebf46e6b-2e61-4306-8125-6e286aa5ab21.cdn.bspapp.com/cloudstorage/bfaef5df-9470-4e7a-8feb-c651f0e5078c.png",
-						title: '萌宠大变身',
-						page: "/pages/templates/pet_humanoid"
-					},
-					{
-						image_url: "https://mp-ebf46e6b-2e61-4306-8125-6e286aa5ab21.cdn.bspapp.com/cloudstorage/bfaef5df-9470-4e7a-8feb-c651f0e5078c.png",
-						title: '萌宠大变身',
-						page: "/pages/templates/pet_humanoid"
-					},
-					{
-						image_url: "https://mp-ebf46e6b-2e61-4306-8125-6e286aa5ab21.cdn.bspapp.com/cloudstorage/bfaef5df-9470-4e7a-8feb-c651f0e5078c.png",
-						title: '萌宠大变身',
-						page: "/pages/templates/pet_humanoid"
-					},
-					{
-						image_url: "https://mp-ebf46e6b-2e61-4306-8125-6e286aa5ab21.cdn.bspapp.com/cloudstorage/bfaef5df-9470-4e7a-8feb-c651f0e5078c.png",
-						title: '萌宠大变身',
-						page: "/pages/templates/pet_humanoid"
-					},
-					{
-						image_url: "https://mp-ebf46e6b-2e61-4306-8125-6e286aa5ab21.cdn.bspapp.com/cloudstorage/bfaef5df-9470-4e7a-8feb-c651f0e5078c.png",
-						title: '萌宠大变身',
-						page: "/pages/templates/pet_humanoid"
-					},
-					{
-						image_url: "https://mp-ebf46e6b-2e61-4306-8125-6e286aa5ab21.cdn.bspapp.com/cloudstorage/bfaef5df-9470-4e7a-8feb-c651f0e5078c.png",
-						title: '萌宠大变身',
-						page: "/pages/templates/pet_humanoid"
-					},
-					{
-						image_url: "https://mp-ebf46e6b-2e61-4306-8125-6e286aa5ab21.cdn.bspapp.com/cloudstorage/bfaef5df-9470-4e7a-8feb-c651f0e5078c.png",
-						title: '萌宠大变身',
-						page: "/pages/templates/pet_humanoid"
-					},
+					
 				],
-				
-				
-				page_height: 'auto'
 			};
 		},
 		onShow() {

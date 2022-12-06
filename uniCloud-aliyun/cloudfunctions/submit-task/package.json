@@ -2,7 +2,7 @@
   "name": "submit-task",
   "dependencies": {
     "ali-mns": "^2.6.8",
-    "xml2js": "^0.4.23"
+    "uni-id-common": "file:../../../uni_modules/uni-id-common/uniCloud/cloudfunctions/common/uni-id-common"
   },
   "extensions": {
     "uni-cloud-jql": {}

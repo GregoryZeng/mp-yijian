@@ -1,5 +1,5 @@
 {
-  "name": "recv-task-result",
+  "name": "poll-result",
   "dependencies": {},
   "extensions": {
     "uni-cloud-jql": {},
