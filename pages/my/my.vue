@@ -1,7 +1,7 @@
 <template>
 	<view class="page" :style="{'height': page_height}">
 
-		<scroll-view class="my-work-section" scroll-y="true">
+		<scroll-view class="my-work-section" scroll-y="true" refresher-enabled="true" @refresherrefresh="pullDownRefresher" :refresher-triggered="pullDownRefreshTriggered">
 			<view class="user-info-section">
 				<view class="pfp-container">
 					<image class="pfp" src="../../static/main/template.png"></image>
@@ -39,16 +39,13 @@
 			return {
 				page_height: 'auto',
 				result_imgs: [],
+				
+				pullDownRefreshTriggered: false,
 			};
 		},
 		async onLoad() {
 			console.log('my onload')
-			let result_imgs = (await uniCloud.callFunction({
-				name: 'get-feed',
-				data: {}
-			})).result.result_imgs;
-			console.log('result_imgs', result_imgs.length);
-			this.result_imgs.splice(0, this.result_imgs.length, ...result_imgs);
+			this.update();
 		},
 		onReady() {
 			this.page_height = getApp().globalData.systeminfo.windowHeight + 'px';
@@ -84,8 +81,22 @@
 					}
 				});
 			},
+			async update(){
+				console.log('my update');
+				let result_imgs = (await uniCloud.callFunction({
+					name: 'get-feed',
+					data: {}
+				})).result.result_imgs;
+				console.log('result_imgs', result_imgs.length);
+				this.result_imgs.splice(0, this.result_imgs.length, ...result_imgs);
+			},
 
-
+			async pullDownRefresher(){
+				console.log('pullDownRefresher')
+				this.pullDownRefreshTriggered = true;
+				await this.update();
+				this.pullDownRefreshTriggered = false;
+			}
 		},
 
 	}
