@@ -1,7 +1,7 @@
 <template>
 	<view class="page" :style="{'height': page_height}">
 
-		<view class="main-area">
+		<scroll-view scroll-y="true" scroll-x="false" class="main-area">
 			<view class="init-img-loading-info">
 				<view class="init-img-container">
 					<image class="init-img" :src="init_image" mode="aspectFit"></image>
@@ -18,9 +18,10 @@
 							<image :src="item.url" class="swiper-item-img" mode="aspectFit"></image>
 						</swiper-item>
 					</swiper>
+					<view class="swiper-touchmove-blocker" @click="previewImage"></view>
 				</view>
 
-				<view class="swiper-touchmove-blocker" @click="previewImage"></view>
+				
 
 				<scroll-view scroll-x="true" scroll-y="false" class="horizontal-thumbnails">
 					<!-- :scroll-into-view="`pos_${scroll_current_idx}`" -->
@@ -44,7 +45,7 @@
 				<text class="create_time">生成时间：{{date.getFullYear()}}年{{date.getMonth()+1}}月{{date.getDate()}}日</text>
 
 			</view>
-		</view>
+		</scroll-view>
 
 		<view class="btns-container">
 			<button class="btn share" open-type="share">分享配方</button>
@@ -233,6 +234,12 @@
 		border: 5rpx solid #000000;
 		border-radius: 30rpx;
 		padding: 20rpx;
+		
+		width: 100%;
+		box-sizing: border-box;
+
+		overflow: hidden;
+		transform: translateY(0);
 
 		.init-img-loading-info {
 			// 上半部分：初始图片、等待时间、加速按钮
@@ -316,7 +323,8 @@
 
 			.swiper-touchmove-blocker {
 				// 禁止对 swiper 的划动操作
-				height: 600rpx;
+				// height: 600rpx;
+				height: 100%;
 				width: 100%;
 
 				position: absolute;
