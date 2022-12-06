@@ -48,6 +48,7 @@ exports.main = async (event, context) => {
 	let method = null;
 	let args = null;
 	let notify_info = null;
+	let task_id = null;
 	if (event.task == 'pet_humanoid') { //萌宠大变身
 		let {
 			init_image,
@@ -55,8 +56,8 @@ exports.main = async (event, context) => {
 			n_images
 		} = event.form_data;
 
-		const task_id = (await dbJQL.collection("yj-task").add({
-			task: task,
+		task_id = (await db.collection("yj-task").add({
+			task: event.task,
 			form_data: event.form_data,
 		})).id;
 		console.log('task_id', task_id)
@@ -75,7 +76,7 @@ exports.main = async (event, context) => {
 			}
 		};
 		notify_info = {
-			task: task,
+			task: event.task,
 			task_id: task_id
 		};
 	} else if (event.task == 'test') {
@@ -117,6 +118,7 @@ exports.main = async (event, context) => {
 	mq.sendP(webui_args).then(console.log, console.error);
 
 	return {
+		task_id,
 		...newToken
 	};
 };

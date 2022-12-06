@@ -2,7 +2,7 @@
 	<view class="page" :style="{'height': page_height}">
 		<!-- 上方的 tab：AI配方/实验室 -->
 		<yj-main-tabs v-model="current_tab" :tabs="tabs" @change="changeTab" fontSize="35rpx" color="#585657"
-			activeColor="#000000" lineColor="#000000" field="name" @clickDisabled="clickDisabled" class="not-scrollview"></yj-main-tabs>
+			activeColor="#000000" lineColor="#000000" field="name" @clickDisabled="clickDisabled" ></yj-main-tabs>
 
 		<!-- 中间的模板列表 -->
 		<scroll-view class="scrollable_view" scroll-y="true" scroll-x="false" >
@@ -28,7 +28,7 @@
 		</scroll-view>
 
 		<!-- 下方 tabbar -->
-		<view class="tabbar not-scrollview">
+		<view class="tabbar">
 			<view class="tabbar_elem tabbar_elem_selected">创作+</view>
 			<view class="tabbar_elem" @click="switchToMyPage">我的</view>
 

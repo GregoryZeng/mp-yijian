@@ -3,7 +3,7 @@
 		<view class="file-picker-section">
 			<text>上传参考图片</text>
 			<view class="file-picker-boxed">
-				<yj-file-picker limit="1" fileMediatype="image" @success="form_data.init_image = $event.tempFilePaths"
+				<yj-file-picker limit="1" fileMediatype="image" @success="form_data.init_image = $event.tempFilePaths[0]"
 					@delete="form_data.init_image = ''"
 					:init_img="'../../static/templates/pet-humanoid-upload-img.jpg'">
 				</yj-file-picker>
@@ -76,7 +76,7 @@
 				uniCloud.callFunction({
 					name: 'submit-task',
 					data: {
-						task: 'pet-humanoid',
+						task: 'pet_humanoid',
 						form_data: this.form_data
 					}
 				}).then(res => {
@@ -91,8 +91,9 @@
 						} else {
 							console.log('res.result.errCode false', res.errCode)
 							let task_id = res.result.task_id;
+							console.log('nav args', task_id, this.form_data.init_image, this.form_data.n_images)
 							uni.navigateTo({
-								url: `/pages/detail/detail?task_id=${task_id}&init_image=${init_image}&n_images=${n_images}`,
+								url: `/pages/detail/detail?task_id=${task_id}&init_image=${this.form_data.init_image}&n_images=${this.form_data.n_images}`,
 								success() {
 									console.log('succ')
 								},

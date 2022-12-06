@@ -1,4 +1,6 @@
 'use strict';
+
+const uniID = require('uni-id-common');
 exports.main = async (event, context) => {
 	// uni-id 检查 token 是否合法，属于哪个用户
 	let {
@@ -46,14 +48,16 @@ exports.main = async (event, context) => {
 	let {
 		task_id
 	} = event;
+	console.log('task_id', task_id)
 	let r = await redis.get(`task_result:${task_id}`);
+	console.log(r)
 	if (r) {
 		let result_imgs = JSON.parse(r);
 		console.log('result_imgs', result_imgs)
 		return {
 			done: true,
 			result_imgs
-		}
+		};
 	} else {
 		return {
 			done: false
