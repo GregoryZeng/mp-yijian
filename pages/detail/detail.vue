@@ -219,6 +219,10 @@
 </script>
 
 <style lang="scss">
+	scroll-view ::-webkit-scrollbar {
+		display: none;
+	}
+	
 	.page {
 		padding: 0 20rpx 0;
 

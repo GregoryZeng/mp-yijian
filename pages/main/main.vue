@@ -2,10 +2,10 @@
 	<view class="page" :style="{'height': page_height}">
 		<!-- 上方的 tab：AI配方/实验室 -->
 		<yj-main-tabs v-model="current_tab" :tabs="tabs" @change="changeTab" fontSize="35rpx" color="#585657"
-			activeColor="#000000" lineColor="#000000" field="name" @clickDisabled="clickDisabled" ></yj-main-tabs>
+			activeColor="#000000" lineColor="#000000" field="name" @clickDisabled="clickDisabled"></yj-main-tabs>
 
 		<!-- 中间的模板列表 -->
-		<scroll-view class="scrollable_view" scroll-y="true" scroll-x="false" >
+		<scroll-view class="scrollable_view" scroll-y="true" scroll-x="false">
 			<view :class="noticebar_classlist">
 				<!-- <image class="noticebar_img" src="@/static/main/noticebar.png" mode="aspectFit"></image> -->
 				<yj-notice-bar class="noticebar_text" scrollable single backgroundColor="rgb(0,0,0,0)"
@@ -55,13 +55,18 @@
 				],
 				noticebar_classlist: ['noticebar'],
 				page_height: 'auto',
-				
+
 				templates: [{
 						image_url: "https://mp-ebf46e6b-2e61-4306-8125-6e286aa5ab21.cdn.bspapp.com/cloudstorage/bfaef5df-9470-4e7a-8feb-c651f0e5078c.png",
 						title: '萌宠大变身',
 						page: "/pages/templates/pet_humanoid"
 					},
-					
+					{
+						image_url: "https://mp-ebf46e6b-2e61-4306-8125-6e286aa5ab21.cdn.bspapp.com/cloudstorage/bfaef5df-9470-4e7a-8feb-c651f0e5078c.png",
+						title: '圣诞变装',
+						page: "/pages/templates/christmas"
+					},
+
 				],
 			};
 		},
@@ -75,18 +80,18 @@
 				}
 			});
 		},
-		
+
 		onReady() {
 			this.page_height = getApp().globalData.systeminfo.windowHeight + 'px';
 		},
 
 		methods: {
-			rpx2px(rpx){
+			rpx2px(rpx) {
 				let w = getApp().globalData.systeminfo.screenWidth;
 				console.log('screenwidth', w)
 				return w / 750 * rpx;
 			},
-			
+
 			changeTab(index) {
 				console.log('当前选中的项：' + index)
 			},
@@ -124,10 +129,14 @@
 </script>
 
 <style lang="scss">
+	scroll-view ::-webkit-scrollbar {
+		display: none;
+	}
+
 	.page {
 		// 控制
 		padding: 0 20rpx 0;
-		
+
 		display: flex;
 		flex-direction: column;
 	}
