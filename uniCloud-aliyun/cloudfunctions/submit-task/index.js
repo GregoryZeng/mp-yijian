@@ -1,6 +1,7 @@
 'use strict';
 const AliMNS = require("ali-mns");
 const uniID = require('uni-id-common');
+const _ = require('lodash');
 
 exports.main = async (event, context) => {
 	// uni-id 检查 token 是否合法，属于哪个用户
@@ -55,22 +56,50 @@ exports.main = async (event, context) => {
 			become,
 			n_images
 		} = event.form_data;
-
+		
 		task_id = (await db.collection("yj-task").add({
 			task: event.task,
 			form_data: event.form_data,
 		})).id;
 		console.log('task_id', task_id)
+		
+		if(become === '碰碰运气'){
+			become = _.sample(['正太','萝莉','御姐','总裁','宝宝']);
+			console.log('sample', become);
+		}
+
+		let prompt = null;
+		switch(become){
+			case '正太':
+				prompt = 'masterpiece, high quality, shota, cat ears';
+				break;
+			case '萝莉':
+				prompt = 'masterpiece, high quality, a cat loli';
+				break;
+			case '御姐':
+				prompt = 'masterpiece, high quality, a cat girl';
+				break;
+			case '总裁':
+				prompt = 'masterpiece, high quality, 1boy, cat ears';
+				break;
+			case '宝宝':
+				prompt = 'masterpiece, high quality, a baby, cat ears';
+				break;
+			default:
+				throw 'become unknown';
+		}
+
 
 		method = 'img2img';
 		args = {
-			prompt: 'a cute cat',
+			prompt: prompt,
 			images: [
 				init_image
 			],
 			batch_size: n_images,
 			cfg_scale: 7,
 			denoising_strength: 0.75,
+			resize_mode: 1,
 			override_settings: {
 				sd_model_checkpoint: "Anything-V3.0-pruned.ckpt [2700c435]",
 			}

@@ -233,7 +233,7 @@
 
 		border: 5rpx solid #000000;
 		border-radius: 30rpx;
-		padding: 20rpx;
+		padding: 0 20rpx 0;
 		
 		width: 100%;
 		box-sizing: border-box;
@@ -249,6 +249,8 @@
 
 			column-gap: 40rpx;
 
+			margin-top: 20rpx;
+
 			.init-img-container {
 				// 必须要在 image 外加一层 view，否则 aspect-ratio 不工作
 				aspect-ratio: 1;
@@ -259,9 +261,14 @@
 
 				border: solid;
 
+				position: relative;
 				.init-img {
 					height: 100%;
 					width: 100%;
+					
+					position: absolute;
+					left: 0;
+					top: 0;
 				}
 			}
 
@@ -300,12 +307,17 @@
 				border: solid;
 				margin: 20rpx auto 20rpx;
 				
+				position: relative;
 				.swiper {
 					// swiper 组件的高度不是自适应的
 					// height: 600rpx;
 					height: 100%;
 					width: 100%;
 					box-sizing: border-box;
+
+					position: absolute;
+					left: 0;
+					top: 0;
 
 					.swiper-item {
 
