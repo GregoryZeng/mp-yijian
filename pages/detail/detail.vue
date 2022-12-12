@@ -6,7 +6,7 @@
 				<view class="init-img-container">
 					<image class="init-img" :src="init_image" mode="aspectFit"></image>
 				</view>
-				<text class="est-time" ref="est-time" v-if="!done">施法过程还有{{est_time_in_secs}}秒</text>
+				
 				<button class="accelerate-btn" >消耗魔力即可加速</button>
 			</view> -->
 
@@ -19,9 +19,14 @@
 						</swiper-item>
 					</swiper>
 					<view class="swiper-touchmove-blocker" @click="previewImage"></view>
+					<view class="loading"  v-if="!done">
+						<yj-loading></yj-loading>
+						<text class="est-time" ref="est-time">施法过程还有{{est_time_in_secs}}秒</text>
+					</view>
+					
 				</view>
 
-				
+
 
 				<scroll-view scroll-x="true" scroll-y="false" class="horizontal-thumbnails">
 					<!-- :scroll-into-view="`pos_${scroll_current_idx}`" -->
@@ -37,7 +42,7 @@
 
 			<view class="desc">
 				<view class="pfp-container">
-					<image class="pfp" src='../../static/main/bell.png' mode="aspectFit"></image>
+					<image class="pfp" src='https://mp-ebf46e6b-2e61-4306-8125-6e286aa5ab21.cdn.bspapp.com/cloudstorage/e31bbf5a-987c-4e67-ad14-0819e43a1f1f.png' mode="aspectFit"></image>
 				</view>
 
 				<text class="username">魔法师1号</text>
@@ -118,7 +123,7 @@
 			if (res.from === 'button') { // 来自页面内分享按钮
 				console.log(res.target)
 			}
-		
+
 			return {
 				title: '快来创作你的个性化AI照片吧',
 				path: '/pages/main/main'
@@ -209,8 +214,8 @@
 					this.timer = null;
 				}
 			},
-			
-			paintAgain(){
+
+			paintAgain() {
 				uni.navigateBack();
 			}
 		}
@@ -222,7 +227,7 @@
 	scroll-view ::-webkit-scrollbar {
 		display: none;
 	}
-	
+
 	.page {
 		padding: 0 20rpx 0;
 
@@ -238,7 +243,7 @@
 		border: 5rpx solid #000000;
 		border-radius: 30rpx;
 		padding: 0 20rpx 0;
-		
+
 		width: 100%;
 		box-sizing: border-box;
 
@@ -266,23 +271,15 @@
 				border: solid;
 
 				position: relative;
+
 				.init-img {
 					height: 100%;
 					width: 100%;
-					
+
 					position: absolute;
 					left: 0;
 					top: 0;
 				}
-			}
-
-
-			.est-time {
-				display: flex;
-				align-items: center;
-
-				grid-column: 2 / 4;
-				grid-row: 1;
 			}
 
 			.accelerate-btn {
@@ -310,8 +307,9 @@
 				aspect-ratio: 1;
 				border: solid;
 				margin: 20rpx auto 20rpx;
-				
+
 				position: relative;
+
 				.swiper {
 					// swiper 组件的高度不是自适应的
 					// height: 600rpx;
@@ -347,6 +345,23 @@
 				top: 0;
 				left: 0;
 			}
+			
+			.loading{
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				.est-time {
+					
+				}
+			}
+			
+			
+			
 
 			.horizontal-thumbnails {
 				// 横向滚动的图片列表
@@ -444,6 +459,7 @@
 				background-color: #F293A5;
 			}
 		}
-
 	}
+
+
 </style>
