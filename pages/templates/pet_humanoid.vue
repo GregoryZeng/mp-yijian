@@ -5,7 +5,7 @@
 			<view class="file-picker-boxed">
 				<yj-file-picker limit="1" fileMediatype="image" @success="form_data.init_image = $event.tempFilePaths[0]"
 					@delete="form_data.init_image = ''"
-					:init_img="'../../static/templates/pet-humanoid-upload-img.jpg'">
+					:init_img="'https://mp-ebf46e6b-2e61-4306-8125-6e286aa5ab21.cdn.bspapp.com/cloudstorage/bea3e18e-04e6-4d99-9abc-6f15168f617b.jpg'">
 				</yj-file-picker>
 				<image src="@/static/common/paw.png" class="deco-paw"></image>
 			</view>

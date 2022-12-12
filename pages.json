@@ -32,9 +32,15 @@
 		        "navigationBarTitleText": "萌宠大变身",
 		        "enablePullDownRefresh": false
 		    }
-		    
 		},
-		
+		{
+		    "path" : "pages/templates/christmas",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "圣诞变装",
+		        "enablePullDownRefresh": false
+		    }
+		},
 		
 		
 		{

@@ -2,13 +2,13 @@
 	<view class="page" :style="{'height': page_height}">
 
 		<scroll-view scroll-y="true" scroll-x="false" class="main-area">
-			<view class="init-img-loading-info">
+			<!-- <view class="init-img-loading-info">
 				<view class="init-img-container">
 					<image class="init-img" :src="init_image" mode="aspectFit"></image>
 				</view>
 				<text class="est-time" ref="est-time" v-if="!done">施法过程还有{{est_time_in_secs}}秒</text>
-				<!-- <button class="accelerate-btn" >消耗魔力即可加速</button> -->
-			</view>
+				<button class="accelerate-btn" >消耗魔力即可加速</button>
+			</view> -->
 
 			<view class="result-imgs">
 

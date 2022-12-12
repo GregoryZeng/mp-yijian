@@ -9,7 +9,7 @@
 			<view :class="noticebar_classlist">
 				<!-- <image class="noticebar_img" src="@/static/main/noticebar.png" mode="aspectFit"></image> -->
 				<yj-notice-bar class="noticebar_text" scrollable single backgroundColor="rgb(0,0,0,0)"
-					text="公告:上了新模板，给大家送100瓶魔法药水" ref="noticebar" :showIcon="true" color="#000000" showClose="true">
+					text="公告: 欢迎大家的使用~ " ref="noticebar" :showIcon="true" color="#000000" showClose="true">
 				</yj-notice-bar>
 			</view>
 
@@ -24,6 +24,8 @@
 			</view>
 
 			<view class="scrollable_bottom"><text>··· 更多配方敬请期待 ···</text></view>
+
+			
 
 		</scroll-view>
 
@@ -261,4 +263,8 @@
 			}
 		}
 	}
+	
+	
+	
+
 </style>

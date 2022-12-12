@@ -1,6 +1,9 @@
 {
   "name": "recv-task-result",
-  "dependencies": {},
+  "dependencies": {
+    "moment": "^2.29.4",
+    "moment-timezone": "^0.5.40"
+  },
   "extensions": {
     "uni-cloud-jql": {},
     "uni-cloud-redis": {}

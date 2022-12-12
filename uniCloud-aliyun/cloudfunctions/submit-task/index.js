@@ -108,17 +108,38 @@ exports.main = async (event, context) => {
 			task: event.task,
 			task_id: task_id
 		};
-	} else if (event.task == 'test') {
-		method = 'txt2img';
+	} else if (event.task == 'christmas') {
+		let {
+			init_image,
+			n_images
+		} = event.form_data;
+		
+		task_id = (await db.collection("yj-task").add({
+			task: event.task,
+			form_data: event.form_data,
+		})).id;
+		console.log('task_id', task_id)
+		
+		let prompt = "masterpiece, high quality, santa costume";
+		
+		method = 'img2img';
 		args = {
-			prompt: 'a cute cat',
-			batch_size: 2,
+			prompt: prompt,
+			images: [
+				init_image
+			],
+			batch_size: n_images,
+			cfg_scale: 7,
+			denoising_strength: 0.75,
+			resize_mode: 1,
 			override_settings: {
 				sd_model_checkpoint: "Anything-V3.0-pruned.ckpt [2700c435]",
 			}
 		};
 		notify_info = {
-			task_id: 'test123',
+			task: event.task,
+			task_id: task_id,
+			platform: 'weixin-mp',
 		};
 	} else {
 		throw 'task not found';
