@@ -40,15 +40,6 @@
 		        "navigationBarTitleText": "圣诞变装",
 		        "enablePullDownRefresh": false
 		    }
-		},
-		
-		
-		{
-			"path": "pages/ucenter/ucenter",
-			"style": {
-				"enablePullDownRefresh": false
-			}
-
 		}
         
     ],

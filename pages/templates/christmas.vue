@@ -38,11 +38,18 @@
 					init_image: "",
 					n_images: 1,
 				},
+				
+				click_submit: false,
 			};
 		},
 		methods: {
 			submit(e) {
+				if(this.click_submit){
+					return;
+				}
+				this.click_submit = true;
 				console.log('submit');
+
 				uniCloud.callFunction({
 					name: 'submit-task',
 					data: {
