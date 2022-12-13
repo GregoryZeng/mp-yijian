@@ -83,7 +83,10 @@
 
 				done: false,
 				est_time_in_secs: 60,
-				timer: null, // 轮询定时器
+				
+				secs_timer: null, // 轮询定时器
+				poll_timer: null,
+				 
 				result_imgs: [{
 					url: '',
 					id: 0
@@ -103,8 +106,9 @@
 
 		},
 		onShow() {
-			if (!this.done && !this.timer) {
-				this.timer = setInterval(this.pollResult, 1000);
+			if (!this.done && !this.secs_timer) {
+				this.secs_timer = setInterval(this.update_est_time, 1000);
+				this.poll_timer = setInterval(this.pollResult, 5000);
 			}
 		},
 		onReady() {
@@ -129,6 +133,13 @@
 				path: '/pages/main/main'
 			}
 		},
+		onShareTimeline(res) {
+			return {
+				title: '快来创作你的个性化AI照片吧',
+				path: '/pages/main/main'
+			}
+		},
+		
 		methods: {
 			// swiper_change(e){
 			// 	// DEPRECATED 目前不允许用户划动 swiper
@@ -171,6 +182,13 @@
 				});
 			},
 
+			async update_est_time(){
+				console.log('update est time')
+				if (this.est_time_in_secs > 1) {
+					this.est_time_in_secs -= 1;
+				}
+			},
+
 			async pollResult() {
 				console.log('pollResult');
 				console.log('task_id', this.task_id)
@@ -198,20 +216,16 @@
 							id: i
 						});
 					}
-				} else {
-					if (this.est_time_in_secs > 1) {
-						this.est_time_in_secs -= 1;
-
-					}
-
-				}
+				} 
 
 			},
 
 			clearTimer() {
-				if (this.timer) {
-					clearInterval(this.timer);
-					this.timer = null;
+				if (this.secs_timer) {
+					clearInterval(this.secs_timer);
+					this.secs_timer = null;
+					clearInterval(this.poll_timer);
+					this.poll_timer = null;
 				}
 			},
 
