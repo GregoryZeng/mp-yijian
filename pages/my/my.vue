@@ -7,7 +7,7 @@
 					<image class="pfp" src="https://mp-ebf46e6b-2e61-4306-8125-6e286aa5ab21.cdn.bspapp.com/cloudstorage/e31bbf5a-987c-4e67-ad14-0819e43a1f1f.png"></image>
 				</view>
 				<view class="username">{{username}}</view>
-				<view class="level">等级：初级魔法师</view>
+				<!-- <view class="level">等级：初级魔法师</view> -->
 			</view>
 
 
@@ -142,18 +142,25 @@
 		transform: translateY(0);
 
 		.user-info-section {
-			display: grid;
-			grid-template-columns: repeat(4, minmax(0, 1fr));
-			grid-template-rows: repeat(2, minmax(0, 1fr));
+			// display: grid;
+			// grid-template-columns: repeat(4, minmax(0, 1fr));
+			// grid-template-rows: repeat(2, minmax(0, 1fr));
+			// column-gap: 20rpx;
+			 
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: 20rpx;
 
-			column-gap: 20rpx; 
-
-			margin: 40rpx 0 30rpx;
+			margin: 0 0 30rpx;
 
 			.pfp-container {
-				grid-column: 1;
-				grid-row: 1 / 3;
+				// grid-column: 1;
+				// grid-row: 1 / 3;
 
+				height: 200rpx;
+				width: 200rpx;
+			
 				display: flex;
 
 				aspect-ratio: 1;
@@ -171,8 +178,12 @@
 			}
 
 			.username {
-				grid-column: 2 / 5;
-				grid-row: 1;
+				// grid-column: 2 / 5;
+				// grid-row: 1;
+				
+				padding: 10rpx 30rpx 10rpx;
+				border: solid;
+				border-color: #e89f38;
 
 				display: flex;
 				align-items: center;
