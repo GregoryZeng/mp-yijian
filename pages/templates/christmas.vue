@@ -3,8 +3,8 @@
 		<view class="file-picker-section">
 			<text>上传参考图片</text>
 			<view class="file-picker-boxed">
-				<yj-file-picker limit="1" fileMediatype="image" @success="form_data.init_image = $event.tempFilePaths[0]"
-					@delete="form_data.init_image = ''"
+				<yj-file-picker limit="1" fileMediatype="image"
+					@success="form_data.init_image = $event.tempFilePaths[0]" @delete="form_data.init_image = ''"
 					:init_img="'https://mp-ebf46e6b-2e61-4306-8125-6e286aa5ab21.cdn.bspapp.com/cloudstorage/bea3e18e-04e6-4d99-9abc-6f15168f617b.jpg'">
 				</yj-file-picker>
 				<image src="@/static/common/paw.png" class="deco-paw"></image>
@@ -12,9 +12,12 @@
 
 		</view>
 
+
+
 		<view class="n-images-section">
 			<text>生成张数</text>
 			<view class="slider-container">
+
 				<radio-group @change="(evt) => form_data.n_images = +(evt.detail.value)">
 					<label v-for="(item, index) in n_images_options" :key="item"
 						:class="[{'selected': item === form_data.n_images}]">
@@ -26,6 +29,12 @@
 		</view>
 
 		<button class="submit-btn" @click="submit" :disabled="!form_data.init_image">马上变身吧！</button>
+
+		<view class="loading" v-if="click_submit">
+			<yj-loading></yj-loading>
+		</view>
+
+
 	</view>
 </template>
 
@@ -33,23 +42,25 @@
 	export default {
 		data() {
 			return {
+
 				n_images_options: [1, 2, 4],
 				form_data: {
 					init_image: "",
 					n_images: 1,
 				},
-				
+
 				click_submit: false,
 			};
 		},
 		methods: {
 			submit(e) {
-				if(this.click_submit){
+				if (this.click_submit) {
 					return;
 				}
 				this.click_submit = true;
 				console.log('submit');
-
+				
+				let that = this;
 				uniCloud.callFunction({
 					name: 'submit-task',
 					data: {
@@ -57,6 +68,7 @@
 						form_data: this.form_data
 					}
 				}).then(res => {
+					that.click_submit = false;
 					console.log(res);
 					if (!res.errCode) {
 						if (res.result.errCode) {
@@ -94,7 +106,7 @@
 	scroll-view ::-webkit-scrollbar {
 		display: none;
 	}
-	
+
 	.page {
 		padding: 0 20rpx 200rpx;
 
@@ -215,4 +227,17 @@
 		border-radius: 30rpx;
 		background-color: #f194a6;
 	}
+
+	.loading{
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+
+
 </style>

@@ -129,8 +129,8 @@ exports.main = async (event, context) => {
 				init_image
 			],
 			batch_size: n_images,
-			cfg_scale: 7,
-			denoising_strength: 0.75,
+			cfg_scale: 7.5,
+			denoising_strength: 0.6,
 			resize_mode: 1,
 			override_settings: {
 				sd_model_checkpoint: "Anything-V3.0-pruned.ckpt [2700c435]",
@@ -139,7 +139,6 @@ exports.main = async (event, context) => {
 		notify_info = {
 			task: event.task,
 			task_id: task_id,
-			platform: 'weixin-mp',
 		};
 	} else {
 		throw 'task not found';

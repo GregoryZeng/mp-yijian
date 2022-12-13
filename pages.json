@@ -51,7 +51,7 @@
 		// #endif
 		"navigationStyle": "default",
 		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "一间AI绘画学院",
+		"navigationBarTitleText": "哈尔的AI绘画魔法书",
 		"navigationBarBackgroundColor": "#FFFFFF",
 		"backgroundColor": "#F8F8F8",
 		"enablePullDownRefresh": false,
