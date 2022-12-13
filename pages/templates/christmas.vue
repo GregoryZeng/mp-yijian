@@ -52,6 +52,24 @@
 				click_submit: false,
 			};
 		},
+		onShareAppMessage(res) {
+			if (res.from === 'button') { // 来自页面内分享按钮
+				console.log(res.target)
+			}
+		
+			return {
+				title: '快来创作你的个性化AI照片吧',
+				path: '/pages/templates/christmas'
+			}
+		},
+		
+		onShareTimeline(res) {
+			return {
+				title: '快来创作你的个性化AI照片吧',
+				path: '/pages/templates/christmas'
+			}
+		},
+		
 		methods: {
 			submit(e) {
 				if (this.click_submit) {

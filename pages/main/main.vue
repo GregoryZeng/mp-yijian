@@ -87,6 +87,24 @@
 			this.page_height = getApp().globalData.systeminfo.windowHeight + 'px';
 		},
 
+		onShareAppMessage(res) {
+			if (res.from === 'button') { // 来自页面内分享按钮
+				console.log(res.target)
+			}
+		
+			return {
+				title: '快来创作你的个性化AI照片吧',
+				path: '/pages/main/main'
+			}
+		},
+
+		onShareTimeline(res) {		
+			return {
+				title: '快来创作你的个性化AI照片吧',
+				path: '/pages/main/main'
+			}
+		},
+
 		methods: {
 			rpx2px(rpx) {
 				let w = getApp().globalData.systeminfo.screenWidth;
