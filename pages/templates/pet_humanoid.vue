@@ -263,6 +263,8 @@
 		border: solid;
 		border-radius: 30rpx;
 		background-color: #f194a6;
+		
+		font-weight: bold;
 	}
 
 	.loading{

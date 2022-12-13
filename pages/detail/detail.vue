@@ -463,7 +463,7 @@
 			border: solid;
 			border-radius: 25rpx;
 
-
+			font-weight: bold;
 
 			&.share {
 				background-color: #F7DAE0;
