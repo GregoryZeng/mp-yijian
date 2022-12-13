@@ -164,7 +164,8 @@ exports.main = async (event, context) => {
 	let account = new AliMNS.Account("mp-yijian@1891807018239840", "LTAI5tLMzkNFwmWRskiVELsk",
 		"Wcci3j5lLfkr0cilZ8MqBffRoc1Abr");
 	let mq = new AliMNS.MQ("sd-task-queue", account, "beijing");
-	mq.sendP(webui_args).then(console.log, console.error);
+	await mq.sendP(webui_args).then(console.log, console.error);
+	console.log('submit finish')
 
 	return {
 		task_id,
