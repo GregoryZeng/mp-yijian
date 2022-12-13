@@ -46,7 +46,7 @@
 				</view>
 
 				<text class="username">魔法师1号</text>
-				<text class="from">来自 小程序 一间AI绘画学院</text>
+				<text class="from">来自 小程序 哈尔的AI绘画魔法书</text>
 				<text class="create_time">生成时间：{{date.getFullYear()}}年{{date.getMonth()+1}}月{{date.getDate()}}日</text>
 
 			</view>

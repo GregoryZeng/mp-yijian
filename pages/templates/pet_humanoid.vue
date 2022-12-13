@@ -46,11 +46,7 @@
 			</view>
 		</view>
 
-		<button class="submit-btn" @click="submit" :disabled="!form_data.init_image">马上变身吧！</button>
-
-		<view class="loading" v-if="click_submit">
-			<yj-loading></yj-loading>
-		</view>
+		<button :class="['submit-btn', {'button--loading': click_submit}]" @click="submit" :disabled="!form_data.init_image"><text>马上变身吧！</text></button>
 
 
 	</view>
@@ -105,7 +101,6 @@
 						form_data: this.form_data
 					}
 				}).then(res => {
-					that.click_submit = false;
 					console.log(res);
 					if (!res.errCode) {
 						if (res.result.errCode) {
@@ -121,6 +116,7 @@
 							uni.navigateTo({
 								url: `/pages/detail/detail?task_id=${task_id}&init_image=${this.form_data.init_image}&n_images=${this.form_data.n_images}`,
 								success() {
+									that.click_submit = false;
 									console.log('succ')
 								},
 								fail() {
@@ -266,17 +262,47 @@
 		
 		font-weight: bold;
 	}
-
-	.loading{
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%);
-		
-		display: flex;
-		flex-direction: column;
-		align-items: center;
+	
+	.button--loading text {
+		visibility: hidden;
+		opacity: 0;
 	}
+	
+	.button--loading::after {
+		//https://www.youtube.com/watch?v=GWw4qxF62hA&t=660s&ab_channel=dcode
+	    content: "";
+	    position: absolute;
+		
+	    width: 50rpx;
+	    height: 50rpx;
+		
+	    top: 0;
+	    left: 0;
+		bottom: 0;
+		right: 0;
+		margin: auto;
+		
+	    transform-origin: center;
+		
+	    border: 4px solid transparent;
+	    border-top-color: #ffffff;
+	    border-radius: 50%;
+	    animation: button-loading-spinner 1s ease infinite;
+		
+		@keyframes button-loading-spinner {
+		    from {
+				
+		        transform: rotate(0);
+		    }
+		
+		    to {
+				
+		        transform: rotate(360deg);
+		    }
+		}
+	}
+	
+	
 
 
 </style>
