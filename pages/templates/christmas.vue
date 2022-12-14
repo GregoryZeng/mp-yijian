@@ -82,7 +82,6 @@
 						form_data: this.form_data
 					}
 				}).then(res => {
-					that.click_submit = false;
 					console.log(res);
 					if (!res.errCode) {
 						if (res.result.errCode) {
@@ -98,6 +97,9 @@
 							uni.navigateTo({
 								url: `/pages/detail/detail?task_id=${task_id}&init_image=${this.form_data.init_image}&n_images=${this.form_data.n_images}`,
 								success() {
+									setTimeout(()=>{
+										that.click_submit = false;
+									},1000);
 									console.log('succ')
 								},
 								fail() {

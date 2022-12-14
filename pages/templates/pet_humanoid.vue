@@ -116,7 +116,10 @@
 							uni.navigateTo({
 								url: `/pages/detail/detail?task_id=${task_id}&init_image=${this.form_data.init_image}&n_images=${this.form_data.n_images}`,
 								success() {
-									that.click_submit = false;
+									setTimeout(()=>{
+										that.click_submit = false;
+									},1000);
+									
 									console.log('succ')
 								},
 								fail() {
