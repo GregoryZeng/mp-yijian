@@ -12,7 +12,7 @@
 
 			<view class="result-imgs">
 
-				<view class="swiper-container">
+				<view class="swiper-container" :style="{'height': swiper_container_height}">
 					<swiper class="swiper" :current="current_idx" :disable-touch="true">
 						<swiper-item v-for="(item, index) in result_imgs" :key="id" class="swiper-item">
 							<image :src="item.url" class="swiper-item-img" mode="aspectFit"></image>
@@ -70,6 +70,7 @@
 		data() {
 			return {
 				page_height: 'auto',
+				swiper_container_height: 'auto',
 
 				current_idx: 0,
 				// swiper_current_idx: 0,
@@ -113,6 +114,16 @@
 		},
 		onReady() {
 			this.page_height = getApp().globalData.systeminfo.windowHeight + 'px';
+			
+			// 兼容 aspect ratio 不支持场景
+			let that = this;
+			uni.createSelectorQuery().in(this).select('.swiper-container').boundingClientRect((data)=>{
+				console.log('.swiper-container width', data.width);
+				console.log('.swiper-container height', data.height);
+				that.swiper_container_height = `${data.width}px`;
+			}).exec((res)=>{
+				
+			});
 		},
 		onUnload() {
 			this.clearTimer();
@@ -323,6 +334,10 @@
 
 			.swiper-container {
 				aspect-ratio: 1;
+				
+				// 有些安卓机的 aspect ratio 支持有问题，只能手动设置高度
+				box-sizing: border-box;
+				
 				border: solid;
 				margin: 20rpx auto 20rpx;
 

@@ -16,7 +16,7 @@
 
 			<view class="image_grid">
 				<view class="image-container" v-for="(item,index) in result_imgs" :key="id"
-					@click="previewImage(index)">
+					@click="previewImage(index)" :style="{'height': image_container_height}">
 					<image :src="item.url" mode="aspectFit"></image>
 				</view>
 			</view>
@@ -41,6 +41,7 @@
 				username: '魔法师',
 				
 				page_height: 'auto',
+				image_container_height: 'auto',
 				result_imgs: [],
 				n_waiting: 0,
 				
@@ -57,6 +58,20 @@
 		},
 		onReady() {
 			this.page_height = getApp().globalData.systeminfo.windowHeight + 'px';
+			
+			// 兼容安卓可能出现的 aspect ratio 不支持场景
+			// onReady 时候图片还没渲染出来，非常恶心，只能延迟了
+			let that = this;
+			setTimeout(()=>{
+				uni.createSelectorQuery().in(this).select('.image-container').boundingClientRect((data)=>{
+					console.log('.image-container width', data.width);
+					console.log('.image-container height', data.height);
+					that.image_container_height = `${data.width}px`;
+				}).exec((res)=>{
+					
+				});
+			}, 2000);
+			
 		},
 		async onShow(){
 			console.log('onShow')
@@ -219,6 +234,8 @@
 
 			.image-container {
 				aspect-ratio: 1;
+				// 兼容 aspect ratio 不支持的问题
+				box-sizing: border-box;
 
 				border: solid;
 				border-radius: 15rpx;
