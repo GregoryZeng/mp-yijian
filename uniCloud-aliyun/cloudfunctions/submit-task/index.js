@@ -120,18 +120,22 @@ exports.main = async (event, context) => {
 		})).id;
 		console.log('task_id', task_id)
 		
-		let prompt = "masterpiece, high quality, santa costume";
+		let prompt = "masterpiece, best quality, ultra-detailed, illustration, disheveled hair, wearing christmas hat";
+		let negative_prompt = "longbody, lowres, bad anatomy, bad hands, missing fingers, pubic hair, extra digit, fewer digits, cropped, worst quality, low quality";
 		
 		method = 'img2img';
 		args = {
 			prompt: prompt,
+			negative_prompt: negative_prompt,
 			images: [
 				init_image
 			],
 			batch_size: n_images,
 			cfg_scale: 7.5,
-			denoising_strength: 0.6,
-			resize_mode: 1,
+			denoising_strength: 0.7,
+			resize_mode: 2,
+			restore_faces: true,
+			steps: 40,
 			override_settings: {
 				sd_model_checkpoint: "Anything-V3.0-pruned.ckpt [2700c435]",
 			}
