@@ -245,6 +245,8 @@
 		padding-bottom: constant(safe-area-inset-bottom);
 		padding-bottom: env(safe-area-inset-bottom);
 
+		margin-top: 10rpx;
+
 		.tabbar_elem {
 			display: inline-block;
 			flex-basis: 0;
