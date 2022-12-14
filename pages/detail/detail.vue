@@ -167,6 +167,10 @@
 			// },
 
 			previewImage() {
+				if(!this.done){
+					console.log('previewImage not done')
+					return;
+				}
 				console.log('preview_image')
 				console.log(this.result_imgs[this.current_idx].url)
 				uni.previewImage({
