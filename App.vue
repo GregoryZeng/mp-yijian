@@ -59,6 +59,11 @@
 			// 获取 systeminfo，并存起来
 			this.globalData.systeminfo = uni.getSystemInfoSync();
 			
+			// 获取 config 的 promise
+			this.globalData.custom_config = uniCloud.callFunction({
+				name:'get-config'
+			});
+		
 			
 			// 如果普通云函数调用返回包含 newToken，则取里面的 token 和 tokenExpired
 			// https://zh.uniapp.dcloud.io/uniCloud/client-sdk.html#add-interceptor
@@ -87,11 +92,24 @@
 				uni.login({
 					success(res){
 						console.log('uni.login', res);
+						
+						//#ifdef MP-WEIXIN
 						uniIdCo.loginByWeixin({
 							code: res.code
 						}).then(res=>{
 							console.log('uni loginByWeixin', res);
 						});
+						//#endif
+						
+						//#ifdef MP-TOUTIAO
+						tt.login()
+						uniCloud.callFunction({
+							name:'login-by-douyin-mp',
+							
+						})
+					
+						//#endif
+						
 					}
 				});
 			}

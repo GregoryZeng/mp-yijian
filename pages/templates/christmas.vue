@@ -5,7 +5,7 @@
 			<view class="file-picker-boxed">
 				<yj-file-picker limit="1" fileMediatype="image"
 					@success="form_data.init_image = $event.tempFilePaths[0]" @delete="form_data.init_image = ''"
-					:init_img="'https://mp-ebf46e6b-2e61-4306-8125-6e286aa5ab21.cdn.bspapp.com/cloudstorage/bea3e18e-04e6-4d99-9abc-6f15168f617b.jpg'">
+					:init_img="uploader_init_image">
 				</yj-file-picker>
 				<image src="@/static/common/paw.png" class="deco-paw"></image>
 			</view>
@@ -38,6 +38,7 @@
 	export default {
 		data() {
 			return {
+				uploader_init_image: 'https://mp-ebf46e6b-2e61-4306-8125-6e286aa5ab21.cdn.bspapp.com/cloudstorage/bea3e18e-04e6-4d99-9abc-6f15168f617b.jpg',
 
 				n_images_options: [1, 2, 4],
 				form_data: {
@@ -47,6 +48,10 @@
 
 				click_submit: false,
 			};
+		},
+		async onLoad() {
+			this.uploader_init_image = (await getApp().globalData.custom_config).result.uploader_init_image.christmas;
+			console.log(this.uploader_init_image)
 		},
 		onShareAppMessage(res) {
 			if (res.from === 'button') { // 来自页面内分享按钮

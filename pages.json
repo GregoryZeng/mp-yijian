@@ -37,7 +37,7 @@
 		    "path" : "pages/templates/christmas",
 		    "style" :                                                                                    
 		    {
-		        "navigationBarTitleText": "圣诞变装",
+		        "navigationBarTitleText": "圣诞头像",
 		        "enablePullDownRefresh": false
 		    }
 		}

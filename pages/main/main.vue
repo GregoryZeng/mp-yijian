@@ -25,7 +25,7 @@
 
 			<view class="scrollable_bottom"><text>··· 更多配方敬请期待 ···</text></view>
 
-			
+
 
 		</scroll-view>
 
@@ -58,19 +58,25 @@
 				noticebar_classlist: ['noticebar'],
 				page_height: 'auto',
 
-				templates: [{
+				templates: [
+					{
+						image_url: "https://mp-ebf46e6b-2e61-4306-8125-6e286aa5ab21.cdn.bspapp.com/cloudstorage/bfaef5df-9470-4e7a-8feb-c651f0e5078c.png",
+						title: '圣诞头像',
+						page: "/pages/templates/christmas"
+					},
+					{
 						image_url: "https://mp-ebf46e6b-2e61-4306-8125-6e286aa5ab21.cdn.bspapp.com/cloudstorage/bfaef5df-9470-4e7a-8feb-c651f0e5078c.png",
 						title: '萌宠大变身',
 						page: "/pages/templates/pet_humanoid"
 					},
-					{
-						image_url: "https://mp-ebf46e6b-2e61-4306-8125-6e286aa5ab21.cdn.bspapp.com/cloudstorage/bfaef5df-9470-4e7a-8feb-c651f0e5078c.png",
-						title: '圣诞变装',
-						page: "/pages/templates/christmas"
-					},
-
+					
 				],
 			};
+		},
+		async onLoad() {
+			let custom_config = (await getApp().globalData.custom_config).result;
+			console.log('custom_config', custom_config)
+			this.templates.splice(0, this.templates.length, ...custom_config.templates);
 		},
 		onShow() {
 			uni.getSystemInfo({
@@ -91,14 +97,14 @@
 			if (res.from === 'button') { // 来自页面内分享按钮
 				console.log(res.target)
 			}
-		
+
 			return {
 				title: '快来创作你的个性化AI照片吧',
 				path: '/pages/main/main'
 			}
 		},
 
-		onShareTimeline(res) {		
+		onShareTimeline(res) {
 			return {
 				title: '快来创作你的个性化AI照片吧',
 				path: '/pages/main/main'
@@ -281,6 +287,4 @@
 			}
 		}
 	}
-
-	
 </style>
