@@ -40,8 +40,32 @@
 		        "navigationBarTitleText": "圣诞头像",
 		        "enablePullDownRefresh": false
 		    }
-		}
-        
+		},
+        {
+            "path" : "pages/templates/mucha",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "穆夏风",
+                "enablePullDownRefresh": false
+            }
+        },
+		{
+		    "path" : "pages/templates/nanako",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "娜娜子头像",
+		        "enablePullDownRefresh": false
+		    }
+		},
+        {
+            "path" : "pages/lab/lab",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"globalStyle": {
 		// #ifdef H5
