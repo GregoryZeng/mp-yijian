@@ -22,6 +22,7 @@
 					<view class="loading"  v-if="!done">
 						<yj-loading></yj-loading>
 						<text class="est-time" ref="est-time">施法过程还有{{est_time_in_secs}}秒</text>
+						
 					</view>
 					
 				</view>
@@ -40,6 +41,8 @@
 
 			</view>
 
+			<text class="tips" v-if="!done">* 退出本页面不会中断任务的进行，最终生成图片可在“我的”页面处查看</text>
+
 			<view class="desc">
 				<view class="pfp-container">
 					<image class="pfp" src='https://mp-ebf46e6b-2e61-4306-8125-6e286aa5ab21.cdn.bspapp.com/cloudstorage/e31bbf5a-987c-4e67-ad14-0819e43a1f1f.png' mode="aspectFit"></image>
@@ -53,8 +56,8 @@
 		</scroll-view>
 
 		<view class="btns-container">
-			<button class="btn share" open-type="share">分享配方</button>
-			<button class="btn rerun" @click="paintAgain">再画一次</button>
+			<button class="btn share" open-type="share" v-if="show_share_btn">分享配方</button>
+			<button class="btn rerun" @click="paintAgain" >再画一次</button>
 		</view>
 
 		<!-- <view>{{current_idx}}</view> -->
@@ -92,9 +95,11 @@
 					url: '',
 					id: 0
 				}],
+				
+				show_share_btn: true,
 			};
 		},
-		onLoad(option) {
+		async onLoad(option) {
 			console.log(option);
 			let {
 				task_id,
@@ -105,6 +110,8 @@
 			this.n_images = parseInt(n_images);
 			this.init_image = init_image;
 
+			this.show_share_btn = (await getApp().globalData.custom_config).result.show_share_btn;
+			// console.log(this.uploader_init_image)
 		},
 		onShow() {
 			if (!this.done && !this.secs_timer) {
@@ -425,6 +432,10 @@
 			}
 		}
 
+		.tips{
+			font-size: 0.875em;
+		}
+		
 		.desc {
 			display: grid;
 			grid-template-columns: repeat(4, minmax(0, 1fr));
