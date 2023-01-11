@@ -59,7 +59,7 @@ exports.main = async (event, context) => {
 
 	// 暂时分 task 处理
 	console.log('notify_info', notify_info)
-	if (['pet_humanoid', 'christmas'].includes(notify_info.task)) {
+	if (['pet_humanoid', 'christmas', 'mucha', 'nanako'].includes(notify_info.task)) {
 		// 在 redis 保存 3h
 		let safe_images = [];
 		console.log('notify_info.task', notify_info.task)
@@ -84,6 +84,7 @@ exports.main = async (event, context) => {
 			});
 		}
 	} else {
+		console.log('task unknown')
 		throw 'task unknown';
 	}
 

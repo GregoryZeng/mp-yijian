@@ -6,26 +6,34 @@
 
 		<!-- 中间的模板列表 -->
 		<scroll-view class="scrollable_view" scroll-y="true" scroll-x="false">
-			<view :class="noticebar_classlist">
-				<!-- <image class="noticebar_img" src="@/static/main/noticebar.png" mode="aspectFit"></image> -->
-				<yj-notice-bar class="noticebar_text" scrollable single backgroundColor="rgb(0,0,0,0)"
-					text="公告: 欢迎大家的使用~ " ref="noticebar" :showIcon="true" color="#000000" showClose="true">
-				</yj-notice-bar>
-			</view>
 
-			<view class="template_grid">
-				<view class="template_item" v-for="(item,index) in templates" :key="title"
-					@click="click_template(index)">
-					<image class="template_thumbnail" :src="item.image_url" mode="aspectFit"></image>
-					<view class="template_desc">
-						<text>{{item.title}}</text>
+			<view class="ai_components_tab" v-if="current_tab==0">
+
+				<view :class="noticebar_classlist">
+					<!-- <image class="noticebar_img" src="@/static/main/noticebar.png" mode="aspectFit"></image> -->
+					<yj-notice-bar class="noticebar_text" scrollable single backgroundColor="rgb(0,0,0,0)"
+						text="公告: 欢迎大家的使用~ " ref="noticebar" :showIcon="true" color="#000000" showClose="true">
+					</yj-notice-bar>
+				</view>
+
+				<view class="template_grid">
+					<view class="template_item" v-for="(item,index) in templates" :key="title"
+						@click="click_template(index)">
+						<image class="template_thumbnail" :src="item.image_url" mode="aspectFit"></image>
+						<view class="template_desc">
+							<text>{{item.title}}</text>
+						</view>
 					</view>
 				</view>
+
+				<view class="scrollable_bottom"><text>··· 更多配方敬请期待 ···</text></view>
+
 			</view>
 
-			<view class="scrollable_bottom"><text>··· 更多配方敬请期待 ···</text></view>
+			<view class="lab_tab" v-if="current_tab==1">
+				<button>新建</button>
 
-
+			</view>
 
 		</scroll-view>
 
@@ -58,7 +66,16 @@
 				noticebar_classlist: ['noticebar'],
 				page_height: 'auto',
 
-				templates: [
+				templates: [{
+						image_url: "https://mp-ebf46e6b-2e61-4306-8125-6e286aa5ab21.cdn.bspapp.com/cloudstorage/bfaef5df-9470-4e7a-8feb-c651f0e5078c.png",
+						title: '娜娜子头像',
+						page: "/pages/templates/nanako"
+					},
+					{
+						image_url: "https://mp-ebf46e6b-2e61-4306-8125-6e286aa5ab21.cdn.bspapp.com/cloudstorage/bfaef5df-9470-4e7a-8feb-c651f0e5078c.png",
+						title: '穆夏风',
+						page: "/pages/templates/mucha"
+					},
 					{
 						image_url: "https://mp-ebf46e6b-2e61-4306-8125-6e286aa5ab21.cdn.bspapp.com/cloudstorage/bfaef5df-9470-4e7a-8feb-c651f0e5078c.png",
 						title: '圣诞头像',
@@ -69,14 +86,14 @@
 						title: '萌宠大变身',
 						page: "/pages/templates/pet_humanoid"
 					},
-					
+
 				],
 			};
 		},
 		async onLoad() {
-			let custom_config = (await getApp().globalData.custom_config).result;
-			console.log('custom_config', custom_config)
-			this.templates.splice(0, this.templates.length, ...custom_config.templates);
+			// let custom_config = (await getApp().globalData.custom_config).result;
+			// console.log('custom_config', custom_config)
+			// this.templates.splice(0, this.templates.length, ...custom_config.templates);
 		},
 		onShow() {
 			uni.getSystemInfo({
@@ -172,7 +189,7 @@
 
 		// 可滑动页高度
 		// TODO: 应该根据实际机型动态计算
-		width: auto;
+		width: 100%;
 		// height: 1170rpx;
 		flex: 1;
 
@@ -188,69 +205,75 @@
 		overflow: hidden;
 		transform: translateY(0);
 
-		.noticebar {
-			// 公告栏（包括图片、滚动文字、关闭按钮）
+		.ai_components_tab {
+			.noticebar {
+				// 公告栏（包括图片、滚动文字、关闭按钮）
 
-			margin-top: 20rpx;
+				margin-top: 20rpx;
 
-			.noticebar_img {
-				// 图片水平居中
-				display: block;
-				margin: 0 auto 0;
+				.noticebar_img {
+					// 图片水平居中
+					display: block;
+					margin: 0 auto 0;
 
-				height: 70rpx; // TODO 目前需显式设置高度，暂时不知道有没有自适应的办法
+					height: 70rpx; // TODO 目前需显式设置高度，暂时不知道有没有自适应的办法
+
+				}
 
 			}
 
 
+			.template_grid {
+				// margin-top: -30rpx;
 
+				display: grid;
+				grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
 
-		}
+				column-gap: 10rpx;
+				row-gap: 20rpx;
 
+				.template_item {
 
-		.template_grid {
-			// margin-top: -30rpx;
+					.template_thumbnail {
+						max-width: 100%;
+					}
 
-			display: grid;
-			grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+					.template_desc {
+						display: block;
+						text-align: center;
+						position: relative;
 
-			column-gap: 10rpx;
-			row-gap: 20rpx;
+						// 猫爪子按钮
+						background-image: url("@/static/main/paw-btn.png");
+						background-repeat: no-repeat;
+						background-size: contain;
+						padding: 16rpx 0 16rpx;
+						background-position: center;
 
-			.template_item {
+						text {
+							font-weight: bold;
 
-				.template_thumbnail {
-					max-width: 100%;
-				}
-
-				.template_desc {
-					display: block;
-					text-align: center;
-					position: relative;
-
-					// 猫爪子按钮
-					background-image: url("@/static/main/paw-btn.png");
-					background-repeat: no-repeat;
-					background-size: contain;
-					padding: 16rpx 0 16rpx;
-					background-position: center;
-
-					text {
-						font-weight: bold;
-
-						display: inline-block;
-						translate: 10%;
+							display: inline-block;
+							translate: 10%;
+						}
 					}
 				}
 			}
+
+			.scrollable_bottom {
+				// 滑到底部的敬请期待，上下留白
+				padding-top: 60rpx;
+				padding-bottom: 40rpx;
+
+				text-align: center;
+			}
 		}
 
-		.scrollable_bottom {
-			// 滑到底部的敬请期待，上下留白
-			padding-top: 60rpx;
-			padding-bottom: 40rpx;
 
-			text-align: center;
+		.lab_tab {
+			button {
+				width: 100%;
+			}
 		}
 
 	}

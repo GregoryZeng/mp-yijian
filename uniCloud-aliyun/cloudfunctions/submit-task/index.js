@@ -56,20 +56,20 @@ exports.main = async (event, context) => {
 			become,
 			n_images
 		} = event.form_data;
-		
+
 		task_id = (await db.collection("yj-task").add({
 			task: event.task,
 			form_data: event.form_data,
 		})).id;
 		console.log('task_id', task_id)
-		
-		if(become === '碰碰运气'){
-			become = _.sample(['正太','萝莉','御姐','总裁','宝宝']);
+
+		if (become === '碰碰运气') {
+			become = _.sample(['正太', '萝莉', '御姐', '总裁', '宝宝']);
 			console.log('sample', become);
 		}
 
 		let prompt = null;
-		switch(become){
+		switch (become) {
 			case '正太':
 				prompt = 'masterpiece, high quality, shota, cat ears';
 				break;
@@ -113,16 +113,18 @@ exports.main = async (event, context) => {
 			init_image,
 			n_images
 		} = event.form_data;
-		
+
 		task_id = (await db.collection("yj-task").add({
 			task: event.task,
 			form_data: event.form_data,
 		})).id;
 		console.log('task_id', task_id)
-		
-		let prompt = "masterpiece, best quality, ultra-detailed, illustration, disheveled hair, wearing christmas hat";
-		let negative_prompt = "longbody, lowres, bad anatomy, bad hands, missing fingers, pubic hair, extra digit, fewer digits, cropped, worst quality, low quality";
-		
+
+		let prompt =
+			"masterpiece, best quality, ultra-detailed, illustration, disheveled hair, wearing christmas hat";
+		let negative_prompt =
+			"longbody, lowres, bad anatomy, bad hands, missing fingers, pubic hair, extra digit, fewer digits, cropped, worst quality, low quality";
+
 		method = 'img2img';
 		args = {
 			prompt: prompt,
@@ -134,7 +136,7 @@ exports.main = async (event, context) => {
 			cfg_scale: 7.5,
 			denoising_strength: 0.7,
 			resize_mode: 2,
-			restore_faces: true,
+			restore_faces: false,
 			steps: 40,
 			override_settings: {
 				sd_model_checkpoint: "Anything-V3.0-pruned.ckpt [2700c435]",
@@ -144,6 +146,80 @@ exports.main = async (event, context) => {
 			task: event.task,
 			task_id: task_id,
 		};
+	} else if (event.task == 'mucha') {
+		let {
+			init_image,
+			n_images
+		} = event.form_data;
+
+		task_id = (await db.collection("yj-task").add({
+			task: event.task,
+			form_data: event.form_data,
+		})).id;
+		console.log('task_id', task_id)
+		let prompt =
+			"best quality, masterpiece, highres, original, extremely detailed 8K wallpaper, 1girl, cat ears, an extremely delicate and beautiful, upper body, ( by alphonse mucha :1.1), (flat shading:1.1), (bold outline:1.1), colorful,( flat color:1.1), (lineart:1.2)";
+		let negative_prompt =
+			"NSFW, lowres,bad anatomy,bad hands, text, error, missing fingers,extra digit, fewer digits, cropped, worstquality, low quality, normal quality,jpegartifacts,signature, watermark, username,blurry,bad feet";
+		method = 'txt2img';
+		args = {
+			prompt: prompt,
+			negative_prompt: negative_prompt,
+			// images: [
+			// 	init_image
+			// ],
+			batch_size: n_images,
+			cfg_scale: 7.5,
+			// denoising_strength: 0.7,
+			// resize_mode: 2,
+			restore_faces: false,
+			steps: 30,
+			override_settings: {
+				sd_model_checkpoint: "Anything-V3.0-pruned.ckpt [2700c435]",
+			}
+		};
+		notify_info = {
+			task: event.task,
+			task_id: task_id,
+		};
+
+
+	} else if (event.task == 'nanako') {
+		let {
+			init_image,
+			n_images
+		} = event.form_data;
+
+		task_id = (await db.collection("yj-task").add({
+			task: event.task,
+			form_data: event.form_data,
+		})).id;
+		console.log('task_id', task_id)
+		let prompt = "masterpiece, high quality, a nanako style portrait of 1girl";
+		let negative_prompt =
+			"NSFW, lowres,bad anatomy,bad hands, text, error, missing fingers,extra digit, fewer digits, cropped, worstquality, low quality, normal quality,jpegartifacts,signature, watermark, username,blurry,bad feet";
+		method = 'txt2img';
+		args = {
+			prompt: prompt,
+			negative_prompt: negative_prompt,
+			// images: [
+			// 	init_image
+			// ],
+			batch_size: n_images,
+			cfg_scale: 7.5,
+			// denoising_strength: 0.9,
+			// resize_mode: 2,
+			restore_faces: false,
+			steps: 30,
+			override_settings: {
+				sd_model_checkpoint: "nanako-style_2000.ckpt [c5232723]",
+			}
+		};
+		notify_info = {
+			task: event.task,
+			task_id: task_id,
+		};
+
 	} else {
 		throw 'task not found';
 	}

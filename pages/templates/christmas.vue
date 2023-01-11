@@ -50,8 +50,8 @@
 			};
 		},
 		async onLoad() {
-			this.uploader_init_image = (await getApp().globalData.custom_config).result.uploader_init_image.christmas;
-			console.log(this.uploader_init_image)
+			// this.uploader_init_image = (await getApp().globalData.custom_config).result.uploader_init_image.christmas;
+			// console.log(this.uploader_init_image)
 		},
 		onShareAppMessage(res) {
 			if (res.from === 'button') { // 来自页面内分享按钮
