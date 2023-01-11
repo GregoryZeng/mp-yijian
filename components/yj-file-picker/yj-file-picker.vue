@@ -19,6 +19,42 @@
 			@uploadFiles="uploadFiles" @choose="choose" @delFile="delFile">
 			<slot><button type="primary" size="mini">选择文件</button></slot>
 		</upload-file>
+
+		<uni-popup ref="pop" :isMaskClick="false" maskBackgroundColor="rgba(0, 0, 0, 0.8)">
+			<view class="cropper-container">
+				<bt-cropper ref="cropper" :imageSrc="cropperImageSrc" :dWidth="2000" :containerSize="containerSize" fileType="jpg" :ratio="ratio" :canvas2d="true">
+				</bt-cropper>
+
+			</view>
+			
+			<scroll-view :scroll-x="true" class="scroller">
+				<view class="scrollerContainer">
+					<view @click="ratio=0" class="item" :class="{
+						active: ratio==0
+					}">
+						<view class="itemContent ratio-1-1">
+							自由
+						</view>
+					</view>
+					<view v-for="(item,index) in ratioList" :key="index" @click="chooseRatio(index)" class="item"
+						:class="{
+						active:activeIndex===index && ratio!==0
+					}">
+						<view :class="'itemContent ratio-' + item.width + '-' + item.height">
+							{{item.width}}:{{item.height}}
+						</view>
+					</view>
+				</view>
+			</scroll-view>
+			
+			<view class="btns">
+				<button class="button cancel" @click="closeCropPopup">取消</button>
+				<button class="button crop" @click="crop">裁剪</button>
+			</view>
+
+		</uni-popup>
+
+
 	</view>
 </template>
 
@@ -186,7 +222,7 @@
 					return ['original', 'compressed']
 				}
 			},
-			init_img:{
+			init_img: {
 				type: String,
 				default: ''
 			},
@@ -194,7 +230,21 @@
 		data() {
 			return {
 				files: [],
-				localValue: []
+				localValue: [],
+
+				cropperImageSrc: '',
+				containerSize: {
+					width: '700rpx',
+					height: '800rpx'
+				},
+				cropperImageDist: '',
+				cropResolveFn: null,
+				ratio: 0,
+				activeIndex: 0,
+				ratioList: [{
+					width: 1,
+					height: 1,
+				}],
 			}
 		},
 		watch: {
@@ -288,19 +338,19 @@
 				return this.uploadFiles(files)
 			},
 			async setValue(newVal, oldVal) {
-				const newData =  async (v) => {
+				const newData = async (v) => {
 					const reg = /cloud:\/\/([\w.]+\/?)\S*/
 					let url = ''
-					if(v.fileID){
+					if (v.fileID) {
 						url = v.fileID
-					}else{
+					} else {
 						url = v.url
 					}
 					if (reg.test(url)) {
 						v.fileID = url
 						v.url = await this.getTempFileURL(url)
 					}
-					if(v.url) v.path = v.url
+					if (v.url) v.path = v.url
 					return v
 				}
 				if (this.returnType === 'object') {
@@ -311,13 +361,13 @@
 					}
 				} else {
 					if (!newVal) newVal = []
-					for(let i =0 ;i < newVal.length ;i++){
+					for (let i = 0; i < newVal.length; i++) {
 						let v = newVal[i]
 						await newData(v)
 					}
 				}
 				this.localValue = newVal
-				if (this.form && this.formItem &&!this.is_reset) {
+				if (this.form && this.formItem && !this.is_reset) {
 					this.is_reset = false
 					this.formItem.setValue(this.localValue)
 				}
@@ -374,11 +424,33 @@
 			 * @param {Object} res
 			 */
 			async chooseFileCallback(res) {
+				console.log('chooseFileCallback res', res);
+				// console.log('size',res.tempFiles[0].size)
+
+				// 用一个 promise 阻塞该回调函数，由 cropper 调用 resolve 函数决定什么时候继续
+				// https://uniapp.dcloud.net.cn/uniCloud/storage.html#%E5%9B%9E%E8%B0%83%E6%96%B9%E6%B3%95
+				let that = this;
+				await new Promise(function(resolve, reject) {
+					// console.log('new promise', that.cropperImageSrc)
+					that.cropResolveFn = resolve;
+					that.cropperImageSrc = res.tempFilePaths[0];
+					that.$refs.pop.open();
+				});
+				// TODO size暂时不处理
+				res.tempFilePaths[0] = this.cropperImageDist;
+				res.tempFiles[0].path = this.cropperImageDist;
+				
+				// console.log('promise resolve')
+				// console.log('this.cropperImageDist', this.cropperImageDist)
+				
 				const _extname = get_extname(this.fileExtname)
+				// console.log('_extname', _extname);
 				const is_one = (Number(this.limitLength) === 1 &&
 						this.disablePreview &&
 						!this.disabled) ||
 					this.returnType === 'object'
+					
+				// console.log('is_one', is_one)
 				// 如果这有一个文件 ，需要清空本地缓存数据
 				if (is_one) {
 					this.files = []
@@ -388,6 +460,9 @@
 					filePaths,
 					files
 				} = get_files_and_is_max(res, _extname)
+				// console.log('filePaths', filePaths)
+				// console.log('files', files)
+				
 				if (!(_extname && _extname.length > 0)) {
 					filePaths = res.tempFilePaths
 					files = res.tempFiles
@@ -406,6 +481,8 @@
 						file: files[i]
 					})
 				}
+				// console.log('currentData', currentData)
+				
 				this.$emit('select', {
 					tempFiles: currentData,
 					tempFilePaths: filePaths
@@ -415,6 +492,11 @@
 				if (!this.autoUpload || this.noSpace) {
 					res.tempFiles = []
 				}
+
+				// 返回新的 result
+				// console.log('return res')
+				return res;
+
 			},
 
 			/**
@@ -461,7 +543,7 @@
 						const reg = /cloud:\/\/([\w.]+\/?)\S*/
 						if (reg.test(item.url)) {
 							this.files[index].url = await this.getTempFileURL(item.url)
-						}else{
+						} else {
 							this.files[index].url = item.url
 						}
 
@@ -534,6 +616,7 @@
 			 * @param {Object} name
 			 */
 			getFileExt(name) {
+				console.log('name', name)
 				const last_len = name.lastIndexOf('.')
 				const len = name.length
 				return {
@@ -549,7 +632,7 @@
 				let data = []
 				if (this.returnType === 'object') {
 					data = this.backObject(this.files)[0]
-					this.localValue = data?data:null
+					this.localValue = data ? data : null
 				} else {
 					data = this.backObject(this.files)
 					if (!this.localValue) {
@@ -579,7 +662,7 @@
 						name: v.name,
 						path: v.path,
 						size: v.size,
-						fileID:v.fileID,
+						fileID: v.fileID,
 						url: v.url
 					})
 				})
@@ -604,12 +687,30 @@
 					parentName = parent.$options.name;
 				}
 				return parent;
+			},
+
+			chooseRatio(index) {
+				this.activeIndex = index
+				let item = this.ratioList[index]
+				this.ratio = item.width / item.height
+			},
+
+			closeCropPopup() {
+				this.$refs.pop.close();
+			},
+
+			crop() {
+				this.$refs.cropper.crop().then(res => {
+					this.cropperImageDist = res;
+					this.$refs.pop.close();
+					this.cropResolveFn();
+				});
 			}
 		}
 	}
 </script>
 
-<style>
+<style lang="scss" scoped>
 	.uni-file-picker {
 		/* #ifndef APP-NVUE */
 		box-sizing: border-box;
@@ -656,5 +757,127 @@
 	.rotate {
 		position: absolute;
 		transform: rotate(90deg);
+	}
+
+	.cropper-container {
+		/** 外层一定要指定大小 */
+		/* position: absolute; */
+		/* left: 0; */
+		/* top: 0; */
+
+		/* height: 500rpx; */
+		/* width: 500rpx; */
+	}
+	
+	.scroller {
+		// align-items: center;
+		
+		// 会溢出
+		// width: 100vw;
+		
+		height: 100rpx;
+		touch-action: none;
+	
+		.scrollerContainer {
+			display: flex;
+			flex-wrap: nowrap;
+			height: 100rpx;
+			align-items: center;
+		}
+	
+		.item {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			margin-left: 40rpx;
+			width: 70rpx;
+			height: 70rpx;
+			flex-shrink: 0;
+			color: #FFFFFF;
+	
+			&.active {
+				color: #0070F3;
+	
+				.itemContent {
+					border: 1px solid #0070F3;
+				}
+			}
+	
+			.itemContent {
+				border-radius: 10rpx;
+				padding: 10rpx;
+				border: 1px solid #FFFFFF;
+				font-size: 16rpx;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				white-space: nowrap;
+			}
+	
+			.ratio-1-1 {
+				width: 70%;
+				height: 70%;
+			}
+	
+			.ratio-16-9 {
+				width: 100%;
+				height: 56.25%;
+			}
+	
+			.ratio-9-16 {
+				width: 56.25%;
+				height: 100%;
+			}
+	
+			.ratio-4-3 {
+				width: 100%;
+				height: 75%;
+			}
+	
+			.ratio-3-4 {
+				width: 75%;
+				height: 100%;
+			}
+	
+			.ratio-3-2 {
+				width: 100%;
+				height: 66.6%;
+			}
+	
+			.ratio-2-3 {
+				width: 66.6%;
+				height: 100%;
+			}
+		}
+	}
+	
+	
+	.btns{
+		// position: fixed;
+		bottom: 100rpx;
+		gap: 20rpx;
+		
+		display: flex;
+		// left: 20rpx;
+		// right: 20rpx;
+		
+		// 和上面的比例保持距离
+		margin: 60rpx 0 0;
+	}
+	
+	.button{
+		flex: 1;
+		
+		border: solid;
+		border-radius: 30rpx;
+		font-weight: bold;
+	}
+	
+	.cancel {
+		// background-color: #F7DAE0;
+	}
+	
+	.crop {
+		background-color: #F293A5;
 	}
 </style>
