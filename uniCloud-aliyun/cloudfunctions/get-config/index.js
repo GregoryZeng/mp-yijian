@@ -18,6 +18,8 @@ exports.main = async (event, context) => {
 		uploader_init_image: {
 			pet_humanoid: 'https://mp-ebf46e6b-2e61-4306-8125-6e286aa5ab21.cdn.bspapp.com/cloudstorage/bea3e18e-04e6-4d99-9abc-6f15168f617b.jpg',
 			christmas: 'https://mp-ebf46e6b-2e61-4306-8125-6e286aa5ab21.cdn.bspapp.com/cloudstorage/bea3e18e-04e6-4d99-9abc-6f15168f617b.jpg',
-		}
+		},
+		
+		show_share_btn: false,
 	};
 };
